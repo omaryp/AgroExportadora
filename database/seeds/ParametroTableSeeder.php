@@ -77,6 +77,47 @@ class ParametroTableSeeder extends Seeder
             'valent' => 4,
             'valdec' => 0.0,
         ]);
+        //estados
+        DB::table('parametros')->insert([
+            'codigo' => 3,
+            'codtab' => '',
+            'descor' => 'Estados Orden de pago',
+            'deslar' => 'Estados Orden de pago',
+            'valent' => 0,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 3,
+            'codtab' => '01',
+            'descor' => 'Ingresada',
+            'deslar' => 'Ingresada',
+            'valent' => 1,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 3,
+            'codtab' => '02',
+            'descor' => 'Aprobada',
+            'deslar' => 'Aprobada',
+            'valent' => 2,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 3,
+            'codtab' => '03',
+            'descor' => 'Por Pagar',
+            'deslar' => 'Por Pagar',
+            'valent' => 3,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 3,
+            'codtab' => '04',
+            'descor' => 'Cancelada',
+            'deslar' => 'Cancelada',
+            'valent' => 4,
+            'valdec' => 0.0,
+        ]);
        
     }
 }

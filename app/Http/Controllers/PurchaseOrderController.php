@@ -10,8 +10,15 @@ class PurchaseOrderController extends Controller
 {
     public function index(){
         //$provs= Proveedor::all();
-        $orders = PurchaseOrder::orderBy('created_at', 'desc')->paginate(7);    
-        $title = 'Ordernes de Compra';
+        //$orders = PurchaseOrder::orderBy('created_at', 'desc')->paginate(7);    
+        $orders = PurchaseOrder::select('purchase_orders.id', 'proveedores.razon_social','purchase_orders.fecha_emision','purchase_orders.total','parametros.descor')
+                ->join('proveedores', 'purchase_orders.proveedor_id', '=', 'proveedores.id')
+                ->join('parametros', 'parametros.codtab','=','purchase_orders.estado')
+                ->where('parametros.codigo','=',3)
+                ->where('parametros.codtab','<>',"''")
+                ->orderBy('purchase_orders.created_at', 'desc')
+                ->paginate(7);
+        $title = 'Ordernes de Compra';  
         return view('purchaseorder.index',compact('orders','title'));
     }
 
@@ -20,10 +27,8 @@ class PurchaseOrderController extends Controller
         $activo = TRUE;
         $forma_pago = ParametroController::getFormaPago();
         $des_recurso = ParametroController::getDestinosRecursos();
-        $codigo = Static::getCodigoOrden();
-        
-        $datos_vista = compact('activo','title','forma_pago','des_recurso','codigo');
-        
+        $orden_codigo = Static::getCodigoOrden();
+        $datos_vista = compact('activo','title','forma_pago','des_recurso','orden_codigo');
         return view('purchaseorder.form',$datos_vista);
     }
 
@@ -47,29 +52,75 @@ class PurchaseOrderController extends Controller
             'condiciones_entrega' => 'nullable',
             'proveedor_id' => 'required|numeric',
         ]);
-
-        $data['id'] = str_pad($data['numero'],6,"0",STR_PAD_LEFT).$data['anio'];
-        $data['fecha_emision'] = $data['fecha_emision'].' 00:00:00';
-        $fecha = DateTime::createFromFormat('Y-m-d H:i:s', $data['fecha_emision']); 
-        $data['fecha_emision'] = $fecha->format('Y-m-d H:i:s');
-        PurchaseOrder::create($data);
-        return redirect()->route('purchaseorders.create');
+            
+        $ordenCompra = new PurchaseOrder();
+        $ordenCompra->id = str_pad($data['numero'],6,"0",STR_PAD_LEFT).$data['anio'];
+        $ordenCompra->numero=$data['numero'];
+        $ordenCompra->anio=$data['anio'];
+        $ordenCompra->fecha_emision=date_format(date_create($data['fecha_emision']), 'Y-m-d H:i:s');
+        $ordenCompra->destino=$data['destino'];
+        $ordenCompra->condicion_pago=$data['condicion_pago'];
+        $ordenCompra->plazo_dias=$data['plazo_dias'];
+        $ordenCompra->almacen=$data['almacen'];
+        $ordenCompra->direccion=$data['direccion'];
+        $ordenCompra->condiciones_entrega=$data['condiciones_entrega'];
+        $ordenCompra->proveedor_id=$data['proveedor_id'];
+        $ordenCompra->save();
+        return redirect()->route('purchaseorders.edit',['codigo' => str_pad($data['numero'],6,"0",STR_PAD_LEFT).$data['anio']]);
     }
-
-   
-    /*public function show(Proveedor $prov){
-        $title = 'Proveedor';
+ 
+    public function show($codigo){
+        $order = PurchaseOrder::select(
+                 'purchase_orders.id', 
+                 'proveedores.ruc', 
+                 'proveedores.razon_social',
+                 'purchase_orders.fecha_emision',
+                 'purchase_orders.total', 
+                 'purchase_orders.condicion_pago',
+                 'purchase_orders.almacen',
+                 'purchase_orders.direccion',
+                 'purchase_orders.condiciones_entrega',
+                 'parametros.descor')
+                ->join('proveedores', 'purchase_orders.proveedor_id', '=', 'proveedores.id')
+                ->join('parametros', 'parametros.codtab','=','purchase_orders.estado')
+                ->where('parametros.codigo','=',1)
+                ->where('parametros.codtab','<>',"''")
+                ->where('purchase_orders.id','=',$codigo)
+                ->get()->first();
+        $title = 'Orden de Compra';
         $activo = FALSE;
-        return view('proveedores.form',compact('prov','activo','title'));
+        return view('purchaseorder.form',compact('order','activo','title'));
     }
 
-    public function edit(Proveedor $prov){
-        $title = 'Proveedor';
+    public function formatoFecha($fecha,$formato){
+        
+    }
+
+    public function edit($codigo){
+        $order = PurchaseOrder::select(
+            'purchase_orders.id', 
+            'proveedores.ruc', 
+            'proveedores.razon_social',
+            'purchase_orders.fecha_emision',
+            'purchase_orders.total',
+            'purchase_orders.condicion_pago',
+            'purchase_orders.destino',
+            'purchase_orders.almacen',
+            'purchase_orders.direccion',
+            'purchase_orders.condiciones_entrega')
+           ->join('proveedores', 'purchase_orders.proveedor_id', '=', 'proveedores.id')
+           ->where('purchase_orders.id','=',$codigo)
+           ->get()->first();
+        $order->fecha_emision = date_format(date_create($order->fecha_emision), 'Y-m-d');
+        $title = 'Orden de Compra';
         $activo = TRUE;
-        return view('proveedores.form',compact('prov','activo','title'));
+        $forma_pago = ParametroController::getFormaPago();
+        $des_recurso = ParametroController::getDestinosRecursos();
+        $datos_vista = compact('activo','title','forma_pago','des_recurso','order');
+        return view('purchaseorder.form',$datos_vista);
     }
 
-   
+   /*
 
     
 

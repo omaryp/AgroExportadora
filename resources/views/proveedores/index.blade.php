@@ -3,7 +3,7 @@
 @section('content')
     <fieldset class="form-group border p-3">
 
-        <legend class="col-form-label col-sm-2 pt-0">{{ $title }}</legend>  
+        <legend class="col-sm-3">{{ $title }}</legend>  
 
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2"></h1>

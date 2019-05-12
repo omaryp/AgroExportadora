@@ -19,29 +19,28 @@ Route::get('/', function () {
 /*******************************PROVEEDORES*******************************/
 Route::get('proveedores','ProveedorController@index')->name('proveedores');
 
-Route::get('proveedores/{prov}','ProveedorController@show')
+Route::get('/proveedores/{prov}','ProveedorController@show')
 ->where('prov','[0-9]+')
 ->name('proveedores.show');
 
-Route::get('proveedores/editar/{prov}','ProveedorController@edit')
+Route::get('/proveedores/editar/{prov}','ProveedorController@edit')
 ->where('prov','[0-9]+')
 ->name('proveedores.edit');
 
-Route::get('proveedores/nuevo','ProveedorController@create')
+Route::get('/proveedores/nuevo','ProveedorController@create')
 ->name('proveedores.create');
 
-Route::post('proveedores','ProveedorController@store');
+Route::post('/proveedores','ProveedorController@store');
 
-Route::put('proveedores/{prov}','ProveedorController@update')
+Route::put('/proveedores/{prov}','ProveedorController@update')
 ->where('prov','[0-9]+');
 
-Route::delete('proveedores/{prov}','ProveedorController@destroy')
+Route::delete('/proveedores/{prov}','ProveedorController@destroy')
 ->where('prov','[0-9]+')
 ->name('proveedores.delete');
 
-Route::get('proveedores/search/{rz}','ProveedorController@search')
+Route::get('/proveedores/search/{rz}','ProveedorController@search')
 ->name('proveedores.search');
-
 /*************************************************************************/
 
 /**************************ORDENES DE SERVICIO****************************/
@@ -51,3 +50,18 @@ Route::post('/purchaseorders','PurchaseOrderController@store');
 
 Route::get('/purchaseorders/nueva','PurchaseOrderController@create')
 ->name('purchaseorders.create');
+
+Route::get('/purchaseorders/{codigo}','PurchaseOrderController@show')
+->where('codigo','[0-9]+')
+->name('purchaseorders.show');
+
+Route::get('/purchaseorders/editar/{codigo}','PurchaseOrderController@edit')
+->where('codigo','[0-9]+')
+->name('purchaseorders.edit');
+/*************************************************************************/
+
+/*********************ORDENES DE SERVICIO DETALLE*************************/
+Route::post('/purchaseordersdetail','PurchaseOrderDetailController@store');
+/*************************************************************************/
+
+

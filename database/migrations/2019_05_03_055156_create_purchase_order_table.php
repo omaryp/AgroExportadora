@@ -21,7 +21,7 @@ class CreatePurchaseOrderTable extends Migration
             $table->unsignedDecimal('destino',2,0)->default(0);
             $table->unsignedDecimal('condicion_pago',1,0)->default(0);
             $table->unsignedDecimal('plazo_dias',2,0)->default(0);
-            $table->dateTime('fecha_emision')->default('1970-01-01 00:00:00');  
+            $table->dateTime('fecha_emision')->default(null)->nullable();  
             $table->unsignedDecimal('estado',2,0)->default(1);
             $table->unsignedDecimal('subtotal',14,2)->nullable();
             $table->unsignedDecimal('igv',14,2)->nullable();

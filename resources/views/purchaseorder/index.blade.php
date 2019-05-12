@@ -3,7 +3,7 @@
 @section('content')
     <fieldset class="form-group border p-3">
 
-        <legend class="col-form-label col-sm-3 pt-0">{{ $title }}</legend>  
+        <legend class="col-sm-3">{{ $title }}</legend>  
 
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
             <h1 class="h2"></h1>
@@ -29,14 +29,16 @@
             <tbody>
                     @forelse ($orders as $order)
                     <tr>
-                        <td>{{ $order->id }}</td>
-                        <td>{{ $order->proveedor_id }}</td>
+                        <td>{{ str_pad($order->id,10,"0",STR_PAD_LEFT)}}</td>
+                        <td>{{ $order->razon_social }}</td>
                         <td>{{ $order->fecha_emision}}</td>
                         <td>{{ $order->total }}</td>
-                        <td>{{ $order->estado }}</td>
+                        <td>{{ $order->descor }}</td>
                         <td> 
                             <div class="btn-group mr-2">
-                               
+                                <a href="{{ route('purchaseorders.show',['codigo'=> str_pad($order->id,10,"0",STR_PAD_LEFT)]) }}" class="btn btn-outline-secondary btn-sm">C</a>
+                                <a href="{{ route('purchaseorders.edit',['codigo'=> str_pad($order->id,10,"0",STR_PAD_LEFT)]) }}" class="btn btn-outline-secondary btn-sm">U</a>
+                                <a class="btn btn-outline-secondary btn-sm">E</a>
                             </div>
                         </td>   
                     </tr>

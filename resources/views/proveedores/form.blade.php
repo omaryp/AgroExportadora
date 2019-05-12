@@ -3,7 +3,7 @@
 
 @section('content')
     <fieldset class="form-group border p-3" @unless($activo) disabled @endunless>
-        <legend class="col-form-label col-sm-2 pt-0 ">{{ $title }}</legend>
+        <legend class="col-sm-3">{{ $title }}</legend>
         <form action="@if(empty($prov)) {{ url("proveedores") }} @else {{ url("proveedores/{$prov->id}") }} @endif" method="POST">
             @unless(empty($prov)) 
                 {{ method_field('PUT') }} 
@@ -67,8 +67,8 @@
             @if ($activo)
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group mr-2">
-                        <button type="submit" class="btn btn-primary border">Guardar</button>
-                        <a href="{{ route('proveedores') }}" class="btn btn-primary border">Salir</a>
+                        <button type="submit" class="btn btn-sm btn-primary border">Guardar</button>
+                        <a href="{{ route('proveedores') }}" class="btn btn-sm btn-primary border">Salir</a>
                     </div>
                 </div>    
             @endif
@@ -78,7 +78,7 @@
     @unless ($activo)
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group mr-2">
-                <a href="{{ route('proveedores') }}" class="btn btn-primary border">Salir</a>
+                <a href="{{ route('proveedores') }}" class="btn btn-sm btn-primary border">Salir</a>
             </div>
         </div>    
     @endunless
