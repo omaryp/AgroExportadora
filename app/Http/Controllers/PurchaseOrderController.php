@@ -92,17 +92,17 @@ class PurchaseOrderController extends Controller
         return view('purchaseorder.form',compact('order','activo','title'));
     }
 
-    public function formatoFecha($fecha,$formato){
-        
-    }
-
     public function edit($codigo){
         $order = PurchaseOrder::select(
             'purchase_orders.id', 
+            'purchase_orders.numero', 
+            'purchase_orders.anio', 
             'proveedores.ruc', 
             'proveedores.razon_social',
             'purchase_orders.fecha_emision',
             'purchase_orders.total',
+            'purchase_orders.proveedor_id',
+            'purchase_orders.plazo_dias',
             'purchase_orders.condicion_pago',
             'purchase_orders.destino',
             'purchase_orders.almacen',
@@ -115,30 +115,30 @@ class PurchaseOrderController extends Controller
         $title = 'Orden de Compra';
         $activo = TRUE;
         $forma_pago = ParametroController::getFormaPago();
-        $des_recurso = ParametroController::getDestinosRecursos();
-        $datos_vista = compact('activo','title','forma_pago','des_recurso','order');
+        $des_recurso = ParametroController::getDestinosRecursos(); 
+        $details = PurchaseOrderDetailController::getDetalleOrden($codigo);
+        $datos_vista = compact('activo','title','forma_pago','des_recurso','order','details');
         return view('purchaseorder.form',$datos_vista);
     }
 
-   /*
-
-    
-
-    public function update(Proveedor $prov){
+    public function update($codigo){
         $data = request()->validate([
-            'razon_social'=>['required',Rule::unique('proveedores','razon_social')->ignore($prov->id)], 
-            'ruc'=>['required','digits:11',Rule::unique('proveedores','ruc')->ignore($prov->id)],
-            'email'=>['required','email',Rule::unique('proveedores','email')->ignore($prov->id)],
-            'direccion'=>['required',Rule::unique('proveedores','email')->ignore($prov->id)],
-            'representante' => 'nullable',
-            'telefono' => 'nullable',
-            'referencias' => 'nullable',
-        ]);
-        $prov->update($data);
-
-        return redirect()->route('proveedores.edit',['prov'=>$prov]);
+            'numero'=>'nullable',
+            'anio'=>'nullable',
+            'fecha_emision'=>'required|date_format:Y-m-d', 
+            'destino'=>'required',
+            'condicion_pago' => 'required',
+            'plazo_dias' => 'required|numeric',
+            'almacen' => 'required',
+            'direccion' => 'required',
+            'condiciones_entrega' => 'nullable',
+            'proveedor_id' => 'required|numeric',
+        ]);    
+        $order=PurchaseOrder::find($codigo);
+        $order->update($data);
+        return redirect()->route('purchaseorders.edit',['codigo' =>$codigo]);
     }
-
+/*
     public function destroy(Proveedor $prov){
         $data = request()->all();
         $data['estado']= '2';

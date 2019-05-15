@@ -5,7 +5,7 @@
 @section('content')
     <fieldset class="form-group border p-3" @unless($activo) disabled @endunless>
         <legend class="col-sm-3">{{ $title }}</legend>
-        <form action="@if(empty($order)) {{ url("purchaseorders") }} @else {{ url("purchaseorders/{$order->id}") }} @endif" method="POST">
+        <form action="@if(empty($order)) {{ url("purchaseorders") }} @else {{ route('purchaseorders.update',['codigo'=>str_pad($order->id,10,'0',STR_PAD_LEFT)]) }} @endif" method="POST">
             @unless(empty($order)) 
                 {{ method_field('PUT') }} 
             @endunless
@@ -17,14 +17,15 @@
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
-                </div>
+                </div>  
             @endif
             <input type="hidden" name="numero" @unless(empty($order)) value="{{ $order->numero }}" @else value="{{ $orden_codigo['numero'] }}"  @endunless/>
             <input type="hidden" name="anio" @unless(empty($order)) value="{{ $order->anio }}" @else  value="{{ $orden_codigo['anio'] }}" @endunless />
             <div class="row">
                 <div class="col-md-3 mb-3">
                     <label for="codigo" >Código de Orden</label>
-                    <input type="text" disabled class="form-control form-control-sm" name = "codigo" id="codigo" placeholder="Example 00000012018" @unless(empty($order)) value="{{ $order->id }}" @else value="{{ str_pad($orden_codigo['numero'],6,"0",STR_PAD_LEFT).$orden_codigo['anio'] }}" @endunless/>
+                    <input type="text" disabled class="form-control form-control-sm" name = "codigo" id="codigo" placeholder="Example 00000012018"
+                           @unless(empty($order)) value="{{ str_pad($order->id,10,'0',STR_PAD_LEFT) }}" @else value="{{ str_pad($orden_codigo['numero'],6,'0',STR_PAD_LEFT).$orden_codigo['anio'] }}" @endunless/>
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="fecha">Fecha Emisión</label>
@@ -124,7 +125,32 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                    
+                                @unless(empty($details))
+                                    @forelse ($details as $det)
+                                        <tr>
+                                            <td>{{ $det->numero_item }}</td>
+                                            <td>{{ $det->cantidad }}</td>
+                                            <td>{{ $det->descripcion }}</td>
+                                            <td>{{ $det->precio_unitario}}</td>
+                                            <td>{{ $det->total }}</td>
+                                            <td> 
+                                                <a href="" class="sel badge badge-primary">eliminar</a>
+                                            </td>   
+                                        </tr>
+                                    @empty 
+                                        <tr>    
+                                            <td colspan="5">
+                                                <h6>No se ha registrado items.</h6>
+                                            </td>
+                                        </tr>
+                                    @endforelse            
+                                @else
+                                    <tr>    
+                                        <td colspan="5">
+                                            <h6>No se ha registrado items.</h6>
+                                        </td>
+                                    </tr>
+                                @endunless                      
                             </tbody>
                         </table>
                     </div>
@@ -185,6 +211,7 @@
 
         $( "#btn_detalle" ).click(function() {
             $('#purchase_order_id').val($('#codigo').val());
+            limpiarformulario();   
             $('#md_detail').modal('show');
         });
 
@@ -271,6 +298,14 @@
 
     function limpiarTabla(){
         $("#tabla_prov tbody tr" ).remove();
+    }
+
+    function limpiarformulario(){
+        $("#cantidad" ).val('');
+        $("#unidad_medida" ).val('');
+        $("#descripcion" ).val('');
+        $("#precio_unitario" ).val('');
+        $("#total" ).val('');
     }
     
 </script>

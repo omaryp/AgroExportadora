@@ -52,7 +52,7 @@
                                        class="form-control form-control-sm" 
                                        name = "precio_unitario" 
                                        id="precio_unitario" 
-                                       placeholder="precio_unitario"/>
+                                       placeholder="Precio unitario"/>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="total" >Total</label>
@@ -69,7 +69,6 @@
                             <div class="btn-toolbar mb-2 mb-md-2">
                                 <div class="btn-group mr-3">
                                     <button class="btn btn-sm btn-primary border" type="submit">Agregar</button>
-                                    <button class="btn btn-sm btn-primary border" type="button">Salir</button>
                                 </div>
                             </div>
                         </div>

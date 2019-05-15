@@ -43,7 +43,7 @@ Route::get('/proveedores/search/{rz}','ProveedorController@search')
 ->name('proveedores.search');
 /*************************************************************************/
 
-/**************************ORDENES DE SERVICIO****************************/
+/**************************ORDENES DE COMPRA****************************/
 Route::get('/purchaseorders','PurchaseOrderController@index')->name('purchaseorders');
 
 Route::post('/purchaseorders','PurchaseOrderController@store');
@@ -58,10 +58,14 @@ Route::get('/purchaseorders/{codigo}','PurchaseOrderController@show')
 Route::get('/purchaseorders/editar/{codigo}','PurchaseOrderController@edit')
 ->where('codigo','[0-9]+')
 ->name('purchaseorders.edit');
+
+Route::put('/purchaseorders/{codigo}','PurchaseOrderController@update')
+->name('purchaseorders.update');
 /*************************************************************************/
 
-/*********************ORDENES DE SERVICIO DETALLE*************************/
+/***********************ORDENES DE COMPRA DETALLE*************************/
 Route::post('/purchaseordersdetail','PurchaseOrderDetailController@store');
+
 /*************************************************************************/
 
 

@@ -26,7 +26,7 @@
                 </tr>
             </thead>
             <tbody>
-                    @forelse ($provs as $p)
+                @forelse ($provs as $p)
                     <tr>
                         <td>{{ $p->ruc }}</td>
                         <td>{{ $p->razon_social }}</td>
