@@ -9,9 +9,108 @@ class ParametroTableSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
-    {
-        //
+    public function run(){
+        $this::tipo_comprobante();
+        $this::estado_order_compra();
+        $this::forma_de_pago();
+        $this::destino_compra();
+        $this::tipo_moneda();
+        $this::tipo_cobro();
+    }
+
+    public static function tipo_cobro(){
+        //estados
+        DB::table('parametros')->insert([
+            'codigo' => 6,
+            'codtab' => '',
+            'descor' => 'Tipo de Cobro',
+            'deslar' => 'Tipo de Cobro',
+            'valent' => 0,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 6,
+            'codtab' => '01',
+            'descor' => 'Detracción',
+            'deslar' => 'Detracción',
+            'valent' => 1,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 6,
+            'codtab' => '02',
+            'descor' => 'Retención',
+            'deslar' => 'Retención',
+            'valent' => 2,
+            'valdec' => 0.0,
+        ]);
+    }
+
+    public static function tipo_moneda(){
+        //estados
+        DB::table('parametros')->insert([
+            'codigo' => 5,
+            'codtab' => '',
+            'descor' => 'Tipo de Moneda',
+            'deslar' => 'Tipo de Moneda',
+            'valent' => 0,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 5,
+            'codtab' => '01',
+            'descor' => 'Soles',
+            'deslar' => 'Soles',
+            'valent' => 1,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 5,
+            'codtab' => '02',
+            'descor' => 'Dólares',
+            'deslar' => 'Dólares',
+            'valent' => 2,
+            'valdec' => 0.0,
+        ]);
+    }
+
+    public static function tipo_comprobante(){
+        //estados
+        DB::table('parametros')->insert([
+            'codigo' => 4,
+            'codtab' => '',
+            'descor' => 'Tipos de comprobante',
+            'deslar' => 'Tipos de comprobante',
+            'valent' => 0,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 4,
+            'codtab' => '00',
+            'descor' => 'Otros',
+            'deslar' => 'Otros',
+            'valent' => 0,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 4,
+            'codtab' => '01',
+            'descor' => 'Factura',
+            'deslar' => 'Factura',
+            'valent' => 1,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 4,
+            'codtab' => '03',
+            'descor' => 'Boleta de Venta',
+            'deslar' => 'Boleta de Venta',
+            'valent' => 3,
+            'valdec' => 0.0,
+        ]);
+    }
+
+    public static function forma_de_pago(){
         DB::table('parametros')->insert([
             'codigo' => 2,
             'codtab' => '',
@@ -37,6 +136,11 @@ class ParametroTableSeeder extends Seeder
             'valdec' => 0.0,
         ]);
         //
+    }
+
+    public static function destino_compra(){
+        //
+        
         DB::table('parametros')->insert([
             'codigo' => 1,
             'codtab' => '',
@@ -77,6 +181,9 @@ class ParametroTableSeeder extends Seeder
             'valent' => 4,
             'valdec' => 0.0,
         ]);
+    }
+
+    public static function estado_order_compra(){
         //estados
         DB::table('parametros')->insert([
             'codigo' => 3,
@@ -118,6 +225,5 @@ class ParametroTableSeeder extends Seeder
             'valent' => 4,
             'valdec' => 0.0,
         ]);
-       
     }
 }

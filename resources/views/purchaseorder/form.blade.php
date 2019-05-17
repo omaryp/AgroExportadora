@@ -10,15 +10,11 @@
                 {{ method_field('PUT') }} 
             @endunless
             {!! csrf_field() !!}
+
             @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>  
+                @include('includes.error', ['errors' => $errors])
             @endif
+            
             <input type="hidden" name="numero" @unless(empty($order)) value="{{ $order->numero }}" @else value="{{ $orden_codigo['numero'] }}"  @endunless/>
             <input type="hidden" name="anio" @unless(empty($order)) value="{{ $order->anio }}" @else  value="{{ $orden_codigo['anio'] }}" @endunless />
             <div class="row">
@@ -306,6 +302,8 @@
         $("#descripcion" ).val('');
         $("#precio_unitario" ).val('');
         $("#total" ).val('');
+        $('#error').addClass('d-none');
+        $("#tabla_prov tbody tr" ).remove();
     }
     
 </script>

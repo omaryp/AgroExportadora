@@ -68,4 +68,27 @@ Route::post('/purchaseordersdetail','PurchaseOrderDetailController@store');
 
 /*************************************************************************/
 
+/**************************COMPROBANTES***********************************/
+Route::get('vouchers','VoucherController@index')->name('vouchers');
+
+Route::get('/vouchers/create','VoucherController@create')
+->name('vouchers.create');
+
+Route::post('/vouchers','VoucherController@store');
+
+Route::get('/vouchers/{id}','VoucherController@show')
+->where('id','[0-9]+')
+->name('vouchers.show');
+
+Route::get('/vouchers/edit/{id}','VoucherController@edit')
+->where('id','[0-9]+')
+->name('vouchers.edit');
+
+Route::delete('/vouchers/{id}','VoucherController@destroy')
+->where('id','[0-9]+')
+->name('vouchers.delete');
+
+
+
+/*************************************************************************/
 

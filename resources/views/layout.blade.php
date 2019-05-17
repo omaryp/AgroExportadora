@@ -67,13 +67,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">
-                    <span data-feather="shopping-cart"></span>
-                    Requerimiento Económico
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">
+                    <a class="nav-link" href="{{ route('vouchers') }}">
                     <span data-feather="users"></span>
                     Comprobantes
                     </a>
@@ -91,25 +85,25 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                     <span data-feather="file-text"></span>
-                    Current month
+                    
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                     <span data-feather="file-text"></span>
-                    Last quarter
+                     
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                     <span data-feather="file-text"></span>
-                    Social engagement
+                    
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                     <span data-feather="file-text"></span>
-                    Year-end sale
+                     
                     </a>
                 </li>
               </ul>
@@ -118,7 +112,7 @@
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
           @yield('content')
         </main>
-      </div>
+      </div>  
     </div>
     <script  src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

@@ -18,7 +18,7 @@ class PurchaseOrderController extends Controller
                 ->where('parametros.codtab','<>',"''")
                 ->orderBy('purchase_orders.created_at', 'desc')
                 ->paginate(7);
-        $title = 'Ordernes de Compra';  
+        $title = 'Ordenes de Compra';  
         return view('purchaseorder.index',compact('orders','title'));
     }
 
@@ -147,3 +147,4 @@ class PurchaseOrderController extends Controller
         return redirect()->route('proveedores');
     }*/
 }
+    

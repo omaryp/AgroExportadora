@@ -16,4 +16,20 @@ class ParametroController extends Controller
         return Parametro::where('codigo','=',2)->where('codtab','<>','')->get();
     }
 
+    public static function getTipoComprobante(){
+        return Parametro::where('codigo','=',4)->where('codtab','<>','')->get();
+    }
+
+    public static function getMonedas(){
+        return Parametro::where('codigo','=',5)->where('codtab','<>','')->get();
+    }
+
+    public static function getDetRet(){
+        return Parametro::where('codigo','=',6)->where('codtab','<>','')->get();
+    }
+
+
+
+
+
 }
