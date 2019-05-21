@@ -28,8 +28,8 @@ class ParametroController extends Controller
         return Parametro::where('codigo','=',6)->where('codtab','<>','')->get();
     }
 
-
-
-
-
+    public static function getPorcentajeRet(){
+        return Parametro::where('codigo','=',7)->where('codtab','<>','')->get()->first();
+    }
+    
 }

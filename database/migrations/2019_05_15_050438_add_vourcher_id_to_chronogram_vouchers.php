@@ -15,9 +15,9 @@ class AddVourcherIdToChronogramVouchers extends Migration
     {
         //
         Schema::table('chronogram_vouchers', function (Blueprint $table) {
-            $table->bigInteger('voucher_id');
-            $table->foreign('voucher_id')->references('id')->on('vouchers');
-            $table->primary(['voucher_id','nro_cuota']);
+            $table->bigInteger('vouchers_id');
+            $table->foreign('vouchers_id')->references('id')->on('vouchers');
+            $table->primary(['vouchers_id','nro_cuota']);
         });
     }
 

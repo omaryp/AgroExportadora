@@ -32,6 +32,16 @@ class PurchaseOrderController extends Controller
         return view('purchaseorder.form',$datos_vista);
     }
 
+    public function search($valor){
+        $orders = PurchaseOrder::join('proveedores', 'purchase_orders.proveedor_id', '=', 'proveedores.id')
+        ->where('proveedores.razon_social', 'like',$valor.'%')
+        ->orwhere('proveedores.ruc', 'like',$valor.'%')
+        ->orderBy('purchase_orders.created_at', 'desc')
+        ->take(5)
+        ->get(['purchase_orders.id','proveedores.ruc', 'proveedores.razon_social','purchase_orders.fecha_emision','purchase_orders.total']);  
+        return response()->json($orders);
+    }
+
     public static function getCodigoOrden(){
         $maximo = PurchaseOrder::where('anio',date('Y'))->max('numero');
         $datos['numero'] = $maximo+1;
@@ -137,6 +147,12 @@ class PurchaseOrderController extends Controller
         $order=PurchaseOrder::find($codigo);
         $order->update($data);
         return redirect()->route('purchaseorders.edit',['codigo' =>$codigo]);
+    }
+
+    public static function actualizar_total($codigo,$monto){
+        $order=PurchaseOrder::find($codigo);
+        $order->total+=$monto;
+        $order->update();
     }
 /*
     public function destroy(Proveedor $prov){

@@ -118,6 +118,7 @@
                                 <th scope="col">Descripción</th>
                                 <th scope="col">Precio</th>
                                 <th scope="col">Subtotal</th>
+                                <th scope="col">Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -193,9 +194,10 @@
 
         $( "#precio_unitario" ).keyup(function(e) {
             var keycode = e.keyCode;
+            var res = calcularTotal($('#cantidad').val(),$(this).val());
             if(caractesValido(e)){
-                $('#total').val(calcularTotal($('#cantidad').val(),$(this).val()));
-                $('#h_total').val(calcularTotal($('#cantidad').val(),$(this).val()));
+                $('#total').val(res);
+                $('#h_total').val(res);
             }
         });
 
@@ -222,6 +224,7 @@
             return false;
         });
     });
+
 
     function caractesValido(e){
         return true;

@@ -14,6 +14,7 @@ class Voucher extends Model
     'moneda',
     'fecha_emision',
     'importe',
+    'importe_orden',
     'detret',
     'valordetret',
     'porvalordetret',

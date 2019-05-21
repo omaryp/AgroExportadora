@@ -33,13 +33,13 @@
                 </div>
 
                 <div class="col-md-4 mb-3">
-                    <label for="importe">Importe</label>
-                    <input type="text" class="form-control form-control-sm " disabled id="importe" name="importe" placeholder="Monto del comprobante" @unless(empty($voucher)) value="{{ $voucher->importe }}" @else value="{{ old('importe') }}" @endunless />
+                    <label for="importe_orden">Importe Orden de Compra</label>
+                    <input type="text" class="form-control form-control-sm " disabled id="importe_orden" name="importe_orden" placeholder="Monto de la orden de compra" @unless(empty($voucher)) value="{{ $voucher->importe_orden }}" @else value="{{ old('importe_orden') }}" @endunless />
                 </div>
             </div>
             <hr>
             <div class="row">
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                     <label for="tipo">Tipo Comprobante</label>
                     <div class="input-group">
                         @unless(empty($tipo_com))
@@ -54,17 +54,23 @@
                         @endunless
                     </div>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                     <label for="serie">Serie</label>
                     <input type="text" class="form-control form-control-sm" id="serie" name ="serie" placeholder="Serie del comprobante" @unless(empty($voucher)) value="{{ $voucher->serie }}" @else value="{{ old('serie') }}" @endunless/>
                 </div>
-                <div class="col-md-4 mb-3">
+                <div class="col-md-3 mb-3">
                     <label for="numero">Número</label>
                     <input type="text" class="form-control form-control-sm" id="numero" name ="numero" placeholder="Número del comprobante" @unless(empty($voucher)) value="{{ $voucher->numero }}" @else value="{{ old('numero') }}" @endunless/>
                 </div>
-            </div>
-            <div class="row">
+
                 <div class="col-md-3 mb-3">
+                    <label for="importe">Importe</label>
+                    <input type="text" class="form-control form-control-sm" id="importe" name ="importe" placeholder="Importe del comprobante" @unless(empty($voucher)) value="{{ $voucher->importe }}" @else value="{{ old('importe') }}" @endunless/>
+                </div>
+
+            </div>
+            <div class="row align-items-end">
+                <div class="col-md-2 mb-3">
                     <label for="fecha">Fecha Emisión</label>
                     <input type="date" class="form-control form-control-sm" id="fecha_emision" name ="fecha_emision" placeholder="dd/mm/aaaa" @unless(empty($voucher)) value="{{ $voucher->fecha_emision }}" @else value="{{ old('fecha_emision') }}" @endunless/>
                 </div>
@@ -86,19 +92,27 @@
                 
                 <div class="col-md-3 mb-3">
                     <label for="forma_pago">Forma de Pago</label>
-                    <input type="text" class="form-control form-control-sm" id="forma_pago" name="forma_pago" placeholder="Representante" @unless(empty($voucher)) value="{{ $voucher->forma_pago }}" @else value="{{ old('forma_pago') }}" @endunless/>
+                    <div class="input-group">
+                        @unless(empty($forma_pago))
+                            <select name="tipo" id="tipo" class="form-control form-control-sm" >
+                                <option value="0">Seleccionar Forma de pago</option>
+                                @foreach ($forma_pago as $parm)
+                                    <option value="{{ $parm->codtab }}" @unless(empty($voucher)) @if( $voucher->moneda == $parm->codtab ) selected @endif @else @if(old('moneda') == $parm->codtab ) selected @endif @endif > {{ $parm->descor }}</option>    
+                                @endforeach
+                            </select>
+                        @else
+                            <input type="text" class="form-control form-control-sm " value="{{ $voucher->moneda }}" />
+                        @endunless
+                    </div>
                 </div>
 
-                <div class="col-md-3 mb-3">
+                <div class="col-md-2 mb-3">
                     @if(empty($cronograma))
-                        <button type="button" id="btn_calendarizar" class="btn btn-sm btn-primary border">Calendarizar</button>
+                        <button type="button" id="btn_calendarizar" @if(empty($voucher)) disabled @endif  class="btn btn-sm btn-primary border">Calendarizar</button>
                     @endif
                 </div>
 
-            </div>
-
-            <div class="row">
-                <div class="col-md-3 mb-3">
+                <div class="col-md-2 mb-3">
                     <label for="detret">Retención/Detracción</label>
                     <div class="input-group">
                         @unless(empty($redet))
@@ -113,8 +127,25 @@
                         @endunless
                     </div>
                 </div>
+
             </div>
-            
+
+            <hr id="sep" class="d-none">
+            <div class="row d-none" id='det'>
+                <div class="col-md-4 mb-3">
+                    <label for="porvalordetret">Tasa Detracción</label>
+                    <input type="text" class="form-control form-control-sm " id="porvalordetret" name="porvalordetret" placeholder="Tasa detracción" @unless(empty($voucher)) value="{{ $voucher->porvalordetret}}" @else value="{{ old('porvalordetret') }}" @endunless aria-describedby="btn_buscar"/>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="valordetret">Detracción</label>
+                    <input type="text" class="form-control form-control-sm "  id="valordetret" name="valordetret" placeholder="Monto detracción" @unless(empty($voucher)) value="{{ $voucher->valordetret }}" @else value="{{ old('valordetret') }}" @endunless />
+                </div>
+                <div class="col-md-4 mb-3">
+                    <label for="subtotal">Subtotal</label>
+                    <input type="text" class="form-control form-control-sm "  id="subtotal" name="subtotal" placeholder="Subtotal del comprobante" @unless(empty($voucher)) value="{{ $voucher->subtotal }}" @else value="{{ old('subtotal') }}" @endunless />
+                </div>
+            </div>
+
             <div class="row">
                 @if(!empty($cronograma))
                     <table class="table table-striped table-sm" id="tabla_prov">
@@ -158,4 +189,94 @@
             </div>
         </div>    
     @endunless
+    @include('purchaseorder.search')
+@endsection
+
+@section('script')
+<script src="{{ asset('js/util.js') }}" ></script>
+<script>
+    $(document).ready(function(){
+        $('#btn_buscar_orden').click(function(){
+            $( "#proveedor_name" ).val('');
+            limpiarTabla();
+            $('#md_search_order').modal('show');       
+        });
+
+        $( "#proveedor_name" ).keyup(function(e) {
+            limpiarTabla();
+            searchOrdenCompra($( "#proveedor_name" ).val());
+        });
+
+        $( "tbody").on("click", "a.sel",function(){
+            $( "#purchase_order_id" ).val($(this).attr('val_id'));
+            $( "#proveedor" ).val($(this).attr('val_ruc')+' - '+$(this).attr('val_razon'));
+            $( "#ruc_proveedor" ).val($(this).attr('val_ruc'));
+            $( "#razon_social" ).val($(this).attr('val_razon'));
+            $( "#importe_orden" ).val($(this).attr('val_total'));
+            $( "#md_search_order" ).modal('hide');
+        });
+
+        $('#detret').on('change', '', function (e) {
+            var item_select = parseInt($(this).val());
+            switch (item_select) {
+                case 1:
+                    $('#det').removeClass('d-none');
+                    $('#sep').removeClass('d-none');
+                    break;
+                default:
+                    $('#det').addClass('d-none');
+                    $('#sep').addClass('d-none');
+                    break;
+            }
+        });    
+        
+        $( "#porvalordetret" ).keyup(function(e) {
+            porcentaje = $('#porvalordetret').val();
+            importe = $('#importe').val();
+            if (filterFloat(e,porcentaje))
+                asignarValores(porcentaje,importe);
+            else
+                this.value = (this.value + '').replace(/[^0-9]/g, '');
+                return false;
+        });
+
+    });
+    
+    function asignarValores(porcentaje,importe){
+        detraccion = calcularDetraccion(porcentaje,importe);
+        subtotal = importe-detraccion;
+        $('#subtotal').val(subtotal);
+        $('#valordetret').val(detraccion);
+    }    
+
+    function limpiarTabla(){
+        $("#tabla_order tbody tr" ).remove();
+    }
+
+    function searchOrdenCompra(valor){
+        ajax_get("{{ url('purchaseorders/search') }}",valor);
+    }
+
+    function ajax_get(ruta,data){
+        $.getJSON( ruta+='/'+data , {_token: '{!! csrf_token() !!}'})
+        .done(function( data, textStatus, jqXHR ) {
+            data.forEach(order => {
+                $("#tabla_order tbody").append(
+                    '<tr> <td>'+ order.id+'</td>'+
+                    '<td>'+order.ruc+' - '+order.razon_social+'</td>'+ 
+                    '<td>'+order.fecha_emision+'</td>'+
+                    '<td>'+order.total+'</td>'+
+                    '<td> <a class="sel badge badge-primary" href="#" val_total = "'+order.total+'" val_ruc = "'+order.ruc+'" val_id="'+order.id+'" val_razon="'+order.razon_social+'" >Seleccionar</a></td>'+
+                    '</tr>');
+            });
+        })
+        .fail(function( jqXHR, textStatus, errorThrown ) {
+            if ( console && console.log ) {
+                console.log( "Algo ha fallado: " +  textStatus);
+            }
+        });
+    } 
+    
+</script>
+
 @endsection

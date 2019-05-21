@@ -7,6 +7,7 @@ use DateTime;
 
 class UtilController extends Controller
 {
+    
     //
     public static function formatoFecha($fecha,$formato){
         $fecha = DateTime::createFromFormat($formato, $fecha); 

@@ -16,6 +16,26 @@ class ParametroTableSeeder extends Seeder
         $this::destino_compra();
         $this::tipo_moneda();
         $this::tipo_cobro();
+        $this::porcentaje_retencion();
+    }
+
+    public static function porcentaje_retencion(){
+        DB::table('parametros')->insert([
+            'codigo' => 7,
+            'codtab' => '',
+            'descor' => 'Retencion',
+            'deslar' => 'Retencion',
+            'valent' => 0,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 7,
+            'codtab' => '01',
+            'descor' => 'Porcentaje Retencion',
+            'deslar' => 'Porcentaje Retencion',
+            'valent' => 0,
+            'valdec' => 0.3,
+        ]);
     }
 
     public static function tipo_cobro(){

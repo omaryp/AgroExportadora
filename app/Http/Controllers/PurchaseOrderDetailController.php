@@ -20,9 +20,11 @@ class PurchaseOrderDetailController extends Controller
         ];
         $validar = Validator::make($data, $reglas);
         $nro_item = 0;
+        $codigo_orden='';
         if ($validar->passes()) {
             $detail = new PurchaseOrderDetail();
-            $detail->purchase_order_id = str_pad($data['purchase_order_id'],10,"0",STR_PAD_LEFT);
+            $codigo_orden = str_pad($data['purchase_order_id'],10,"0",STR_PAD_LEFT);
+            $detail->purchase_order_id = $codigo_orden;
             $nro_item = PurchaseOrderDetailController::getCodigoItem($detail->purchase_order_id);
             $detail->numero_item= $nro_item;
             $detail->cantidad = $data['cantidad'];
@@ -31,6 +33,7 @@ class PurchaseOrderDetailController extends Controller
             $detail->precio_unitario = $data['precio_unitario'];
             $detail->total = $data['total'];
             $detail->save();
+            PurchaseOrderController::actualizar_total($codigo_orden,$data['total']);
             return response()->json([
                 'success' => true,
                 'id' => $nro_item,

@@ -61,6 +61,9 @@ Route::get('/purchaseorders/editar/{codigo}','PurchaseOrderController@edit')
 
 Route::put('/purchaseorders/{codigo}','PurchaseOrderController@update')
 ->name('purchaseorders.update');
+
+Route::get('/purchaseorders/search/{rz}','PurchaseOrderController@search')
+->name('proveedores.search');
 /*************************************************************************/
 
 /***********************ORDENES DE COMPRA DETALLE*************************/

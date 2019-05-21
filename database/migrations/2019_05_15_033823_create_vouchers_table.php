@@ -12,15 +12,17 @@ class CreateVouchersTable extends Migration
      * @return void
      */
     public function up()
-    {
+    {   
         Schema::create('vouchers', function (Blueprint $table) {
             $table->bigInteger('id');
             $table->primary('id');
+            $table->string('key',16)->unique();
             $table->unsignedDecimal('tipo',2,0)->default(0);
             $table->string('serie',4)->default('');
             $table->string('numero',8)->default('');
             $table->unsignedDecimal('moneda',2,0)->default(0);
             $table->date('fecha_emision')->nullable();
+            $table->unsignedDecimal('importe_orden',14,2)->default(0);
             $table->unsignedDecimal('importe',14,2)->default(0);
             $table->unsignedDecimal('detret',2,0)->default(0);
             $table->unsignedDecimal('valordetret',14,2)->default(0)->nullable();
