@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Voucher;
+use Validator;
 
 class VoucherController extends Controller
 {
@@ -99,7 +100,7 @@ class VoucherController extends Controller
                 $data['porvalordetret'] = $detret['porcentaje'];
                 $data['subtotal']= $data['importe'] - $detret['porcentaje'];  
             }
-            Vouchers::create($data);
+            Voucher::create($data);
         }
         return redirect()->route('vouchers.edit',['id' => $data['id']]);
     }
@@ -119,7 +120,7 @@ class VoucherController extends Controller
     }
 
     public static function getCorrelativo(){
-        $maximo = Vouchers::max('numero_item');
+        $maximo = Voucher::max('id');
         return $maximo+1;
     }
 

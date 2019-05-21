@@ -78,7 +78,7 @@
                     <label for="moneda">Moneda</label>
                     <div class="input-group">
                         @unless(empty($monedas))
-                            <select name="tipo" id="tipo" class="form-control form-control-sm" >
+                            <select name="moneda" id="moneda" class="form-control form-control-sm" >
                                 <option value="0">Seleccionar Moneda</option>
                                 @foreach ($monedas as $parm)
                                     <option value="{{ $parm->codtab }}" @unless(empty($voucher)) @if( $voucher->moneda == $parm->codtab ) selected @endif @else @if(old('moneda') == $parm->codtab ) selected @endif @endif > {{ $parm->descor }}</option>    
@@ -94,7 +94,7 @@
                     <label for="forma_pago">Forma de Pago</label>
                     <div class="input-group">
                         @unless(empty($forma_pago))
-                            <select name="tipo" id="tipo" class="form-control form-control-sm" >
+                            <select name="forma_pago" id="forma_pago" class="form-control form-control-sm" >
                                 <option value="0">Seleccionar Forma de pago</option>
                                 @foreach ($forma_pago as $parm)
                                     <option value="{{ $parm->codtab }}" @unless(empty($voucher)) @if( $voucher->moneda == $parm->codtab ) selected @endif @else @if(old('moneda') == $parm->codtab ) selected @endif @endif > {{ $parm->descor }}</option>    
