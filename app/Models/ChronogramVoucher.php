@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,5 +12,5 @@ class ChronogramVoucher extends Model
     'fecha_pago',
     'mora',
     'monto_cuota',
-    'voucher_id'];
+    'vouchers_id'];
 }

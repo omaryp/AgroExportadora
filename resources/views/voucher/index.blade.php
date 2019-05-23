@@ -34,16 +34,16 @@
                         <td>{{ $vou->ruc_proveedor }}</td>
                         <td>{{ $vou->razon_social }}</td>
                         <td>{{ $vou->tipo }}</td>
-                        <td>{{ $vou->serie }}-{ $vou->numero }}</td>
+                        <td>{{ $vou->serie }}-{{ $vou->numero }}</td>
                         <td>{{ $vou->moneda }}</td>
-                        <td>{{ $vou->monto }}</td>
+                        <td>{{ $vou->importe }}</td>
                         <td>{{ $vou->estado }}</td>
                         <td> 
                             <!--<div class="btn-toolbar mb-2 mb-md-0">-->
                                 <div class="btn-group mr-2">
-                                    <a href="{{ route('vouchers.show',['id'=> $vou->id]) }}" class="btn btn-outline-secondary">C</a>
-                                    <a href="{{ route('vouchers.edit',['id'=> $vou->id]) }}" class="btn btn-outline-secondary">U</a>
-                                    <a href="{{ route('vouchers.delete',['id'=> $vou->id]) }}" class="btn btn-outline-secondary">D</a>
+                                    <a href="{{ route('vouchers.show',['id'=> $vou->id]) }}" class="btn btn-outline-secondary btn-sm">C</a>
+                                    <a href="{{ route('vouchers.edit',['id'=> $vou->id]) }}" class="btn btn-outline-secondary btn-sm">U</a>
+                                    <a href="{{ route('vouchers.delete',['id'=> $vou->id]) }}" class="btn btn-outline-secondary btn-sm">D</a>
                                 </div>
                             <!--</div>-->
                         </td>   

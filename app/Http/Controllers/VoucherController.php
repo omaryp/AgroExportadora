@@ -16,7 +16,6 @@ class VoucherController extends Controller
         $vouchers = Voucher::orderBy('fecha_emision', 'desc')->paginate(7);    
         $title = 'Comprobantes';
         $datos_vista = compact('vouchers','title');
-
         return view('voucher.index',$datos_vista);
     }
 
@@ -33,76 +32,67 @@ class VoucherController extends Controller
 
     public function store(){
         $data= request()->all();
-        $reglas = [];
         $detret = $data['detret']; 
+        $reglas = [
+            'id'=>'nullable',
+            'key'=>'unique:vouchers',
+            'tipo'=>'required|numeric',
+            'serie'=>'required|size:4|string',
+            'numero'=>'required|digits_between:1,8|numeric',
+            'moneda'=>'required',
+            'fecha_emision'=>'required|date',
+            'importe'=>'required|numeric',
+            'importe_orden'=>'required|numeric',
+            'detret'=>'required',
+            'estado'=>'nullable',
+            'forma_pago'=>'required',
+            'fecuencia_pago'=>'nullable',
+            'nro_cuotas'=>'nullable',
+            'fecha_vencimiento'=>'nullable',
+            'fecha_primer_pago'=>'nullable',
+            'ruc_proveedor'=>'required|numeric',
+            'razon_social'=>'required|string',
+            'purchase_order_id'=>'required|string'];
+            
         switch ($detret) {
             case $this::DETRACCION:
                 # code...
-                $reglas = [
-                    'id'=>'nullable',
-                    'tipo'=>'required|numeric',
-                    'serie'=>'required|size:4|string',
-                    'numero'=>'required|max:8|numeric',
-                    'moneda'=>'required',
-                    'fecha_emision'=>'required|date',
-                    'importe'=>'required|numeric',
-                    'importe_orden'=>'required|numeric',
-                    'detret'=>'required',
-                    'valordetret'=>'required|numeric',
-                    'porvalordetret'=>'required|numeric',
-                    'subtotal'=>'required|numeric',
-                    'estado'=>'nullable',
-                    'forma_pago'=>'required',
-                    'fecuencia_pago'=>'nullable',
-                    'nro_cuotas'=>'nullable',
-                    'fecha_vencimiento'=>'nullable',
-                    'fecha_primer_pago'=>'nullable',
-                    'ruc_proveedor'=>'required|numeric',
-                    'razon_social'=>'required|string',
-                    'purchase_order_id'=>'required|string'];
+                $reglas['valordetret']='required|numeric';
+                $reglas['porvalordetret']='required|numeric';
+                $reglas['subtotal']='required|numeric';
                 break;
             
             case $this::RETENCION:
-            $reglas = [
-                'id'=>'nullable',
-                'key'=>'unique',
-                'tipo'=>'required|numeric',
-                'serie'=>'required|size:4|string',
-                'numero'=>'required|max:8|numeric',
-                'moneda'=>'required',
-                'fecha_emision'=>'required|date',
-                'importe'=>'required|numeric',
-                'importe_orden'=>'required|numeric',
-                'detret'=>'required',
-                'valordetret'=>'nullable',
-                'porvalordetret'=>'nullable',
-                'subtotal'=>'nullable',
-                'estado'=>'nullable',
-                'forma_pago'=>'required',
-                'fecuencia_pago'=>'nullable',
-                'nro_cuotas'=>'nullable',
-                'fecha_vencimiento'=>'nullable',
-                'fecha_primer_pago'=>'nullable',
-                'ruc_proveedor'=>'required|numeric',
-                'razon_social'=>'required|string',
-                'purchase_order_id'=>'required|string'];
+                $reglas['valordetret']='nullable';
+                $reglas['porvalordetret']='nullable';
+                $reglas['subtotal']='nullable';
+                
                 break;
         }
         $data['key']=VoucherController::getKey($data['serie'],$data['numero'],$data['moneda'],$data['tipo']);
+        $data['id']=VoucherController::getCorrelativo();
         $validar = Validator::make($data, $reglas);
-        $nro_item = 0;
-        $codigo_orden='';
+
+        //$nro_item = 0;
+        //$codigo_orden='';
         if ($validar->passes()) {
-            $data['id']=VoucherController::getCorrelativo();
             if($detret == $this::RETENCION){
                 $dataRet = VoucherController::calcularRetencion($data['importe']);
                 $data['valordetret'] = $detret['monto_retencion'];
                 $data['porvalordetret'] = $detret['porcentaje'];
                 $data['subtotal']= $data['importe'] - $detret['porcentaje'];  
             }
+            $data['purchase_order_id']=str_pad($data['purchase_order_id'],10,"0",STR_PAD_LEFT);
             Voucher::create($data);
+            return redirect()->route('vouchers.edit',['id' => $data['id']]);
+        }else{
+            if ($validar->fails()) {
+                return redirect('/vouchers/create')
+                            ->withErrors($validar)
+                            ->withInput();
+            }
         }
-        return redirect()->route('vouchers.edit',['id' => $data['id']]);
+        
     }
 
     public static function calcularRetencion($monto_comprobante){
@@ -145,14 +135,16 @@ class VoucherController extends Controller
             'vouchers.purchase_order_id')
            ->where('vouchers.id','=',$codigo)
            ->get()->first();
-        $voucher->fecha_emision = date_format(date_create($order->fecha_emision), 'Y-m-d');
+        $voucher->fecha_emision = date_format(date_create($voucher->fecha_emision), 'Y-m-d');
         $title = 'Comprobante';
         $tipo_com= ParametroController::getTipoComprobante();
         $monedas = ParametroController::getMonedas();
         $redet = ParametroController::getDetRet();
         $forma_pago = ParametroController::getFormaPago();
+        $cronograma = ChronogramVoucherController::getCronograma($codigo);
+
         $activo = TRUE;
-        $datos_vista = compact('activo','title','tipo_com','monedas','redet','forma_pago','voucher');
+        $datos_vista = compact('activo','title','tipo_com','monedas','redet','forma_pago','voucher','cronograma');
         return view('voucher.form',$datos_vista);
     }
 

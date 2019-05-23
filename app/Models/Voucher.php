@@ -9,6 +9,7 @@ class Voucher extends Model
     //
     protected $fillable = ['id',
     'tipo',
+    'key',
     'serie',
     'numero',
     'moneda',

@@ -91,7 +91,11 @@ Route::delete('/vouchers/{id}','VoucherController@destroy')
 ->where('id','[0-9]+')
 ->name('vouchers.delete');
 
+/*************************************************************************/
 
+
+/**************************CRONOGRAMA*COMPROBANTES************************/
+Route::post('/chronogramvoucher','ChronogramVoucherController@store');
 
 /*************************************************************************/
 

@@ -13,16 +13,16 @@
             @if ($errors->any())
                 @include('includes.error', ['errors' => $errors])
             @endif
-
+            <input type="hidden" name="id" id="id" @unless(empty($voucher)) value="{{ $voucher->id}}" @else value="{{ old('id') }}" @endunless  >
             <div class="row">
-                
                 <div class="col-md-4 mb-3">
-                    <label for="purchase_order_id">Orden de Compra</label>
+                    <label for="purchase_order">Orden de Compra</label>
                     <div class="input-group input-group-sm">
                         <div class="input-group-prepend">
                             <button class="btn btn-primary form-control-sm" type="button" id="btn_buscar_orden">Buscar</button>
                         </div>
-                        <input type="text" class="form-control form-control-sm " disabled id="purchase_order_id" name="purchase_order_id" placeholder="Código de Orden de Compra" @unless(empty($voucher)) value="{{ $voucher->purchase_order_id}}" @else value="{{ old('purchase_order_id') }}" @endunless aria-describedby="btn_buscar"/>
+                        <input type="text" class="form-control form-control-sm " disabled id="purchase_order" name="purchase_order" placeholder="Código de Orden de Compra" @unless(empty($voucher)) value="{{ $voucher->purchase_order_id}}" @else value="{{ old('purchase_order_id') }}" @endunless aria-describedby="btn_buscar"/>
+                        <input type="hidden" id="purchase_order_id" name="purchase_order_id"  @unless(empty($voucher)) value="{{ $voucher->purchase_order_id}}" @else value="{{ old('purchase_order_id') }}" @endunless />
                     </div>
                 </div>
                 <div class="col-md-4 mb-3">
@@ -33,8 +33,9 @@
                 </div>
 
                 <div class="col-md-4 mb-3">
-                    <label for="importe_orden">Importe Orden de Compra</label>
-                    <input type="text" class="form-control form-control-sm " disabled id="importe_orden" name="importe_orden" placeholder="Monto de la orden de compra" @unless(empty($voucher)) value="{{ $voucher->importe_orden }}" @else value="{{ old('importe_orden') }}" @endunless />
+                    <label for="importe_or">Importe Orden de Compra</label>
+                    <input type="text" class="form-control form-control-sm " disabled id="importe_or" name="importe_or" placeholder="Monto de la orden de compra" @unless(empty($voucher)) value="{{ $voucher->importe_orden }}" @else value="{{ old('importe_orden') }}" @endunless />
+                    <input type="hidden" id="importe_orden" name="importe_orden"  @unless(empty($voucher)) value="{{ $voucher->importe_orden }}" @else value="{{ old('importe_orden') }}" @endunless />
                 </div>
             </div>
             <hr>
@@ -145,29 +146,33 @@
                     <input type="text" class="form-control form-control-sm "  id="subtotal" name="subtotal" placeholder="Subtotal del comprobante" @unless(empty($voucher)) value="{{ $voucher->subtotal }}" @else value="{{ old('subtotal') }}" @endunless />
                 </div>
             </div>
-
+            <hr>
             <div class="row">
                 @if(!empty($cronograma))
-                    <table class="table table-striped table-sm" id="tabla_prov">
-                        <thead>
-                            <tr>
-                                <th scope="col">Nro. Cuota</th>
-                                <th scope="col">Fecha Vencimiento</th>
-                                <th scope="col">Fecha Pago</th>
-                                <th scope="col">Monto Cuota</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($cronograma as $cuota)
-                                <tr>
-                                    <td>{{ $cuota->nro_cuota }}</td>
-                                    <td>{{ $cuota->fecha_cuota }}</td>
-                                    <td>{{ $cuota->fecha_pago }}</td>
-                                    <td>{{ $cuota->monto_cuota }}</td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>     
+                    <div class="col-md-12 mb-3">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-sm" id="tabla_prov">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nro. Cuota</th>
+                                        <th scope="col">Fecha Vencimiento</th>
+                                        <th scope="col">Fecha Pago</th>
+                                        <th scope="col">Monto Cuota</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($cronograma as $cuota)
+                                        <tr>
+                                            <td>{{ $cuota->nro_cuota }}</td>
+                                            <td>{{ $cuota->fecha_cuota }}</td>
+                                            <td>{{ $cuota->fecha_pago }}</td>
+                                            <td>{{ $cuota->monto_cuota }}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>   
+                        </div>
+                    </div>  
                 @endif
             </div>
 
@@ -190,6 +195,7 @@
         </div>    
     @endunless
     @include('purchaseorder.search')
+    @include('voucher.calendar')
 @endsection
 
 @section('script')
@@ -202,6 +208,19 @@
             $('#md_search_order').modal('show');       
         });
 
+        $('#btn_calendarizar').click(function(){
+            $( "#nro_cuotas" ).val('');
+            $( "#voucher_id" ).val($( "#id" ).val());
+            $( "#frecuencia_pago" ).val('');
+            $( "#fecha_primer_pago" ).val('');
+            $('#md_calendario').modal('show');       
+        });
+
+        $('#frm_calendar').submit(function(){
+            ajax_post($("#frm_calendar").attr('action'),$("#frm_calendar").serialize());
+            return false;
+        });
+        
         $( "#proveedor_name" ).keyup(function(e) {
             limpiarTabla();
             searchOrdenCompra($( "#proveedor_name" ).val());
@@ -209,9 +228,11 @@
 
         $( "tbody").on("click", "a.sel",function(){
             $( "#purchase_order_id" ).val($(this).attr('val_id'));
+            $( "#purchase_order" ).val($(this).attr('val_id'));
             $( "#proveedor" ).val($(this).attr('val_ruc')+' - '+$(this).attr('val_razon'));
             $( "#ruc_proveedor" ).val($(this).attr('val_ruc'));
             $( "#razon_social" ).val($(this).attr('val_razon'));
+            $( "#importe_or" ).val($(this).attr('val_total'));
             $( "#importe_orden" ).val($(this).attr('val_total'));
             $( "#md_search_order" ).modal('hide');
         });
@@ -239,8 +260,21 @@
                 this.value = (this.value + '').replace(/[^0-9]/g, '');
                 return false;
         });
-
     });
+
+    function procesar_rpta(rpta){
+        $('#error').addClass('d-none');
+        if(rpta.success){
+            location.reload();
+        }   
+        else{
+            mensajes =  rpta.mensajes;
+            $('#error').removeClass('d-none');
+            mensajes.forEach(err => {
+                $('#error ul').append('<li>'+err+'</li>');
+            });
+        }
+    }
     
     function asignarValores(porcentaje,importe){
         detraccion = calcularDetraccion(porcentaje,importe);
