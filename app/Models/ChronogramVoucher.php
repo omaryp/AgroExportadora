@@ -8,9 +8,15 @@ class ChronogramVoucher extends Model
 {
     //
     protected $fillable = ['nro_cuota',
+    'estado',
     'fecha_cuota',
     'fecha_pago',
     'mora',
     'monto_cuota',
-    'vouchers_id'];
+    'voucher_id'];
+
+    protected $primaryKey = ['voucher_id', 'nro_cuota'];
+
+    public $incrementing = false;
+
 }

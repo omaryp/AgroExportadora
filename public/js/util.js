@@ -7,13 +7,6 @@ function filterFloat(evt,input){
     }
 }
 
-function calcularDetraccion(porcentaje,importe){
-    if(porcentaje<1)
-        return porcentaje*importe;
-    else
-        return (porcentaje/100)*importe;
-}
-
 function ajax_post(ruta,datos){
     $.ajax({
         data: datos,
@@ -28,3 +21,15 @@ function ajax_post(ruta,datos){
         rpta_srv = textStatus;
     });
 }   
+
+function ajax_get(ruta,data){
+    $.getJSON( ruta+='/'+data , {_token: '{!! csrf_token() !!}'})
+    .done(function( data, textStatus, jqXHR ) {
+        procesarDataGet(data);
+    })
+    .fail(function( jqXHR, textStatus, errorThrown ) {
+        if ( console && console.log ) {
+            console.log( "Algo ha fallado: " +  textStatus);
+        }
+    });
+} 

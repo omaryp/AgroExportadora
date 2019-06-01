@@ -35,13 +35,9 @@
                         <td> 
                             <!--<div class="btn-toolbar mb-2 mb-md-0">-->
                                 <div class="btn-group mr-2">
-                                    <a href="{{ route('proveedores.show',['prov'=> $p->id]) }}" class="btn btn-outline-secondary">C</a>
-                                    <a href="{{ route('proveedores.edit',['prov'=> $p->id]) }}" class="btn btn-outline-secondary">U</a>
-                                    <form action="{{ route('proveedores.delete',['prov'=> $p->id]) }}" method="POST">
-                                        {!! csrf_field() !!}
-                                        {{ method_field('DELETE') }}
-                                        <button  class="btn btn-outline-secondary" type="submit">E</button>
-                                    </form>
+                                    <a href="{{ route('proveedores.show',['prov'=> $p->id]) }}" class="btn btn-outline-secondary btn-sm">C</a>
+                                    <a href="{{ route('proveedores.edit',['prov'=> $p->id]) }}" class="btn btn-outline-secondary btn-sm">U</a>
+                                    <a href="{{ route('proveedores.edit',['prov'=> $p->id]) }}" class="btn btn-outline-secondary btn-sm">E</a>
                                 </div>
                             <!--</div>-->
                         </td>   

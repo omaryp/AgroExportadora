@@ -23,10 +23,12 @@ class VoucherController extends Controller
         $title = 'Comprobante';
         $tipo_com= ParametroController::getTipoComprobante();
         $monedas = ParametroController::getMonedas();
-        $redet = ParametroController::getDetRet();
+        $redet = ParametroController::getTipoAfectacion();
         $forma_pago = ParametroController::getFormaPago();
+        $min_ret = ParametroController::getMontoRetencion()->valdec;
+        $min_det = ParametroController::getMontoDetraccion()->valdec;
         $activo = TRUE;
-        $datos_vista = compact('activo','title','tipo_com','monedas','redet','forma_pago');
+        $datos_vista = compact('activo','title','tipo_com','monedas','redet','forma_pago','min_ret','min_det');
         return view('voucher.form',$datos_vista);
     }
 
@@ -78,9 +80,9 @@ class VoucherController extends Controller
         if ($validar->passes()) {
             if($detret == $this::RETENCION){
                 $dataRet = VoucherController::calcularRetencion($data['importe']);
-                $data['valordetret'] = $detret['monto_retencion'];
-                $data['porvalordetret'] = $detret['porcentaje'];
-                $data['subtotal']= $data['importe'] - $detret['porcentaje'];  
+                $data['valordetret'] = $dataRet['monto_retencion'];
+                $data['porvalordetret'] = $dataRet['porcentaje'];
+                $data['subtotal']= $data['importe'] - $dataRet['monto_retencion'];  
             }
             $data['purchase_order_id']=str_pad($data['purchase_order_id'],10,"0",STR_PAD_LEFT);
             Voucher::create($data);
@@ -93,6 +95,77 @@ class VoucherController extends Controller
             }
         }
         
+    }
+
+    public function update($codigo){
+        $data= request()->all();
+        $detret = $data['detret']; 
+        $reglas = [
+            'id'=>'nullable',
+            'key'=>'unique:vouchers',
+            'tipo'=>'required|numeric',
+            'serie'=>'required|size:4|string',
+            'numero'=>'required|digits_between:1,8|numeric',
+            'moneda'=>'required',
+            'fecha_emision'=>'required|date',
+            'importe'=>'required|numeric',
+            'importe_orden'=>'required|numeric',
+            'detret'=>'required',
+            'estado'=>'nullable',
+            'forma_pago'=>'required',
+            'fecuencia_pago'=>'nullable',
+            'nro_cuotas'=>'nullable',
+            'fecha_vencimiento'=>'nullable',
+            'fecha_primer_pago'=>'nullable',
+            'ruc_proveedor'=>'required|numeric',
+            'razon_social'=>'required|string',
+            'purchase_order_id'=>'required|string'];
+            
+        switch ($detret) {
+            case $this::DETRACCION:
+                # code...
+                $reglas['valordetret']='required|numeric';
+                $reglas['porvalordetret']='required|numeric';
+                $reglas['subtotal']='required|numeric';
+                break;
+            
+            case $this::RETENCION:
+                $reglas['valordetret']='nullable';
+                $reglas['porvalordetret']='nullable';
+                $reglas['subtotal']='nullable';
+                break;
+        }
+        
+        $voucher = Voucher::find($codigo);
+        $validar = Validator::make($data, $reglas);
+
+        if ($validar->passes()) {
+            if($detret == $this::RETENCION){
+                $dataRet = VoucherController::calcularRetencion($data['importe']);
+                $data['valordetret'] = $dataRet['monto_retencion'];
+                $data['porvalordetret'] = $dataRet['porcentaje'];
+                $data['subtotal']= $data['importe'] - $dataRet['monto_retencion'];  
+            }
+            $data['purchase_order_id']=str_pad($data['purchase_order_id'],10,"0",STR_PAD_LEFT);
+            $voucher->update($data);
+            return redirect()->route('vouchers.edit',['id' => $codigo]);
+        }else{
+            if ($validar->fails()) {
+                return redirect('/vouchers/create')
+                            ->withErrors($validar)
+                            ->withInput();
+            }
+        }
+    }
+
+    public function search($valor){
+        $vouchers = Voucher::where('estado', '=',0)->where('razon_social', 'like',$valor.'%')
+        ->orwhere('ruc_proveedor', 'like',$valor.'%')
+        ->orderBy('created_at', 'desc')
+        ->take(5)
+        ->get(['id','tipo','serie','numero','ruc_proveedor','razon_social','fecha_emision','importe']);  
+        $datos=['id_data'=>1,'data'=>$vouchers];
+        return response()->json($datos);
     }
 
     public static function calcularRetencion($monto_comprobante){
@@ -114,7 +187,6 @@ class VoucherController extends Controller
         return $maximo+1;
     }
 
-    
     public function edit($codigo){
         $voucher = Voucher::select('id',
             'vouchers.tipo',
@@ -139,12 +211,14 @@ class VoucherController extends Controller
         $title = 'Comprobante';
         $tipo_com= ParametroController::getTipoComprobante();
         $monedas = ParametroController::getMonedas();
-        $redet = ParametroController::getDetRet();
+        $redet = ParametroController::getTipoAfectacion();
         $forma_pago = ParametroController::getFormaPago();
         $cronograma = ChronogramVoucherController::getCronograma($codigo);
+        $min_ret = ParametroController::getMontoRetencion()->valdec;
+        $min_det = ParametroController::getMontoDetraccion()->valdec;
 
         $activo = TRUE;
-        $datos_vista = compact('activo','title','tipo_com','monedas','redet','forma_pago','voucher','cronograma');
+        $datos_vista = compact('activo','title','tipo_com','monedas','redet','forma_pago','voucher','cronograma','min_ret','min_det');
         return view('voucher.form',$datos_vista);
     }
 

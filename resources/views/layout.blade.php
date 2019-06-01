@@ -56,20 +56,27 @@
               <ul class="nav flex-column list-group">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('proveedores') }}">
-                    <span data-feather="home"></span>
+                    <span data-feather="proveedores"></span>
                     Proveedores <span class="sr-only">(current)</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('purchaseorders') }}">
-                    <span data-feather="file"></span>
+                    <span data-feather="ordencompra"></span>
                     Ordenes de compra
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('vouchers') }}">
-                    <span data-feather="users"></span>
+                    <span data-feather="comprobantes"></span>
                     Comprobantes
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('payments') }}">
+                    <span data-feather="pagos"></span>
+                      Pagos
                     </a>
                 </li>
               

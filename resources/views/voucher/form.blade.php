@@ -13,6 +13,9 @@
             @if ($errors->any())
                 @include('includes.error', ['errors' => $errors])
             @endif
+            <input type="hidden" name="min_ret" id="min_ret" value="{{$min_ret}}">
+            <input type="hidden" name="min_det" id="min_det" value="{{$min_det}}">
+
             <input type="hidden" name="id" id="id" @unless(empty($voucher)) value="{{ $voucher->id}}" @else value="{{ old('id') }}" @endunless  >
             <div class="row">
                 <div class="col-md-4 mb-3">
@@ -108,9 +111,9 @@
                 </div>
 
                 <div class="col-md-2 mb-3">
-                    @if(empty($cronograma))
-                        <button type="button" id="btn_calendarizar" @if(empty($voucher)) disabled @endif  class="btn btn-sm btn-primary border">Calendarizar</button>
-                    @endif
+                    
+                    <button type="button" id="btn_calendarizar" @if(empty($voucher)) disabled @endif  class="btn btn-sm btn-primary border">Calendarizar</button>
+                    
                 </div>
 
                 <div class="col-md-2 mb-3">
@@ -118,7 +121,7 @@
                     <div class="input-group">
                         @unless(empty($redet))
                             <select name="detret" id="detret" class="form-control form-control-sm" >
-                                <option value="0">Ninguno</option>
+                                <option value="00">Ninguno</option>
                                 @foreach ($redet as $parm)
                                     <option value="{{ $parm->codtab }}" @unless(empty($voucher)) @if( $voucher->detret == $parm->codtab ) selected @endif @else @if(old('detret') == $parm->codtab ) selected @endif @endif > {{ $parm->descor }}</option>    
                                 @endforeach
@@ -239,15 +242,33 @@
 
         $('#detret').on('change', '', function (e) {
             var item_select = parseInt($(this).val());
-            switch (item_select) {
-                case 1:
-                    $('#det').removeClass('d-none');
-                    $('#sep').removeClass('d-none');
-                    break;
-                default:
-                    $('#det').addClass('d-none');
-                    $('#sep').addClass('d-none');
-                    break;
+            var importe = parseFloat($('#importe').val());
+            var min_ret = 0;
+            var min_det = 0;
+            if(importe != 0){
+                switch (item_select) {
+                    case 1:
+                        min_det = parseFloat($('#min_det').val());
+                        if(importe >= min_det){
+                            $('#det').removeClass('d-none');
+                            $('#sep').removeClass('d-none');
+                        } else{
+                            $("#detret option:contains(Ninguno)").attr('selected', true);
+                            alert('Importe mínimo para detracción es '+min_det+' soles.'); 
+                            $("#detret option:contains(Ninguno)").attr('selected',false);                           
+                        }
+                        break;
+                    case 2:
+                        min_ret = parseFloat($('#min_ret').val());
+                        if(importe < min_ret){
+                            $("#detret option:contains(Ninguno)").attr('selected', true);
+                            alert('Importe mínimo para retención es '+min_ret)+' soles.';
+                            $("#detret option:contains(Ninguno)").attr('selected',false);
+                        }
+                        $('#det').addClass('d-none');
+                        $('#sep').addClass('d-none');
+                        break;
+                }
             }
         });    
         
@@ -291,25 +312,24 @@
         ajax_get("{{ url('purchaseorders/search') }}",valor);
     }
 
-    function ajax_get(ruta,data){
-        $.getJSON( ruta+='/'+data , {_token: '{!! csrf_token() !!}'})
-        .done(function( data, textStatus, jqXHR ) {
-            data.forEach(order => {
-                $("#tabla_order tbody").append(
-                    '<tr> <td>'+ order.id+'</td>'+
-                    '<td>'+order.ruc+' - '+order.razon_social+'</td>'+ 
-                    '<td>'+order.fecha_emision+'</td>'+
-                    '<td>'+order.total+'</td>'+
-                    '<td> <a class="sel badge badge-primary" href="#" val_total = "'+order.total+'" val_ruc = "'+order.ruc+'" val_id="'+order.id+'" val_razon="'+order.razon_social+'" >Seleccionar</a></td>'+
-                    '</tr>');
-            });
-        })
-        .fail(function( jqXHR, textStatus, errorThrown ) {
-            if ( console && console.log ) {
-                console.log( "Algo ha fallado: " +  textStatus);
-            }
+    function calcularDetraccion(porcentaje,importe){
+        if(porcentaje<1)
+            return porcentaje*importe;
+        else
+            return (porcentaje/100)*importe;
+    }
+
+    function procesarDataGet(data){
+        data.forEach(order => {
+            $("#tabla_order tbody").append(
+                '<tr> <td>'+ order.id+'</td>'+
+                '<td>'+order.ruc+' - '+order.razon_social+'</td>'+ 
+                '<td>'+order.fecha_emision+'</td>'+
+                '<td>'+order.total+'</td>'+
+                '<td> <a class="sel badge badge-primary" href="#" val_total = "'+order.total+'" val_ruc = "'+order.ruc+'" val_id="'+order.id+'" val_razon="'+order.razon_social+'" >Seleccionar</a></td>'+
+                '</tr>');
         });
-    } 
+    }
     
 </script>
 

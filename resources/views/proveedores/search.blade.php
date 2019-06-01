@@ -10,7 +10,7 @@
             <div class="modal-body">
                 <form>
                     <div class="form-group">
-                        <input type="text" class="form-control form-control-sm" id="proveedor_name">
+                        <input type="text" class="form-control form-control-sm" id="proveedor_name" placeholder="Ruc / Razón Social">
                     </div>
                     <div class="form-group">
                         <table class="table table-striped table-sm" id="tabla_prov">

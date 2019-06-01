@@ -19,6 +19,7 @@ class CreateChronogramVouchersTable extends Migration
             $table->date('fecha_pago')->nullable();
             $table->unsignedInteger('mora')->default(0);
             $table->unsignedDecimal('monto_cuota',14,2)->default(0);
+            $table->unsignedInteger('estado')->defualt(0);          
             $table->timestamps();
         });
     }

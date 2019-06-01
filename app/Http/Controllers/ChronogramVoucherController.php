@@ -34,16 +34,17 @@ class ChronogramVoucherController extends Controller
 
     public static function generar_cronograma($voucher_id,$nro_cuotas,$frecuencia,$fecha_primer_pago){
         $voucher = Voucher::find($voucher_id);
-        $monto = $voucher->importe;
+        $monto = $voucher->subtotal;
         $cuota = 1;
         $fecha_cuota =  date($fecha_primer_pago);
-        $monto_cuota = $voucher->importe/$nro_cuotas;
+        $monto_cuota = $monto/$nro_cuotas;
         while($cuota<=$nro_cuotas){
             $cuota_cronograma = new ChronogramVoucher();
             $cuota_cronograma->fecha_cuota=$fecha_cuota;
             $cuota_cronograma->nro_cuota = $cuota;
             $cuota_cronograma->monto_cuota = $monto_cuota;
-            $cuota_cronograma->vouchers_id = $voucher_id;
+            $cuota_cronograma->voucher_id = $voucher_id;
+            $cuota_cronograma->estado = 0;
             $fecha_cuota = date("Y-m-d",strtotime($fecha_cuota."+ {$frecuencia} days"));
             $cuota += 1;
             $cuota_cronograma->save();
@@ -60,9 +61,19 @@ class ChronogramVoucherController extends Controller
         'fecha_pago',
         'mora',
         'monto_cuota',
-        'vouchers_id')
-        ->where('vouchers_id','=',$voucher_id)
+        'voucher_id')
+        ->where('voucher_id','=',$voucher_id)
         ->orderBy('nro_cuota')->get();        
         return $cronograma;
+    }
+
+    public static function actualizar_cuota($pago){
+        $cuota = ChronogramVoucher::where('voucher_id','=',$pago->voucher_id)->where('nro_cuota','=',$pago->nro_cuota)
+        ->get()->first();
+        $cuota->fecha_pago = $pago->fecha_pago;
+        $diff = date_create($cuota->fecha_cuota)->diff(date_create($pago->fecha_pago));
+        $cuota->mora = $diff->days;
+        $cuota->estado = 1;
+        $cuota->update();
     }
 }

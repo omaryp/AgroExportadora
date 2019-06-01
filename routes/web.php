@@ -79,6 +79,10 @@ Route::get('/vouchers/create','VoucherController@create')
 
 Route::post('/vouchers','VoucherController@store');
 
+Route::put('/vouchers/{id}','VoucherController@update')
+->where('id','[0-9]+')
+->name('vouchers.update');
+
 Route::get('/vouchers/{id}','VoucherController@show')
 ->where('id','[0-9]+')
 ->name('vouchers.show');
@@ -91,6 +95,9 @@ Route::delete('/vouchers/{id}','VoucherController@destroy')
 ->where('id','[0-9]+')
 ->name('vouchers.delete');
 
+Route::get('/vouchers/search/{rz}','VoucherController@search')
+->name('vouchers.search');
+
 /*************************************************************************/
 
 
@@ -99,3 +106,42 @@ Route::post('/chronogramvoucher','ChronogramVoucherController@store');
 
 /*************************************************************************/
 
+
+/**************************COMPROBANTES***********************************/
+Route::get('payments','PaymentController@index')->name('payments');
+
+Route::get('/payments/create','PaymentController@create')
+->name('payments.create');
+
+Route::post('/payments','PaymentController@store');
+
+Route::get('/payments/{id}','PaymentController@show')
+->where('id','[0-9]+')
+->name('payments.show');
+
+Route::get('/payments/edit/{id}','PaymentController@edit')
+->where('id','[0-9]+')
+->name('payments.edit');
+
+Route::delete('/payments/{id}','PaymentController@destroy')
+->where('id','[0-9]+')
+->name('payments.delete');
+
+Route::get('/payments/tipo/{codigo}','PaymentController@tipo')
+->where('codigo','[0-9]+')
+->name('payments.tipo');
+
+Route::get('/payments/datos/{codigo}','PaymentController@datos')
+->where('codigo','[0-9]+')
+->name('payments.datos');
+
+Route::get('/payments/comprobante/{codigo}', 'PaymentController@comprobante')
+->where('codigo','[0-9]+');
+
+Route::get('/payments/detraccion/{codigo}', 'PaymentController@detret')
+->where('codigo','[0-9]+');
+
+Route::get('/payments/retencion/{codigo}', 'PaymentController@detret')
+->where('codigo','[0-9]+');
+
+/*************************************************************************/

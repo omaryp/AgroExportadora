@@ -17,24 +17,76 @@ class ParametroTableSeeder extends Seeder
         $this::tipo_moneda();
         $this::tipo_cobro();
         $this::porcentaje_retencion();
+        $this::tipo_pago();
+    }
+
+    public static function tipo_pago(){
+        DB::table('parametros')->insert([
+            'codigo' => 8,
+            'codtab' => '',
+            'descor' => 'Tipo de pago',
+            'deslar' => 'Tipo de pago',
+            'valent' => 0,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 8,
+            'codtab' => '01',
+            'descor' => 'COMPROBANTE',
+            'deslar' => 'COMPROBANTE',
+            'valent' => 0,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 8,
+            'codtab' => '02',
+            'descor' => 'DETRACCIÓN',
+            'deslar' => 'DETRACCIÓN',
+            'valent' => 0,
+            'valdec' => 0.0,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 8,
+            'codtab' => '03',
+            'descor' => 'RETENCIÓN',
+            'deslar' => 'RETENCIÓN',
+            'valent' => 0,
+            'valdec' => 0.0,
+        ]);
     }
 
     public static function porcentaje_retencion(){
         DB::table('parametros')->insert([
             'codigo' => 7,
             'codtab' => '',
-            'descor' => 'Retencion',
-            'deslar' => 'Retencion',
+            'descor' => 'Parametros tipo afectación',
+            'deslar' => 'Parametros tipo afectación',
             'valent' => 0,
             'valdec' => 0.0,
         ]);
         DB::table('parametros')->insert([
             'codigo' => 7,
             'codtab' => '01',
-            'descor' => 'Porcentaje Retencion',
-            'deslar' => 'Porcentaje Retencion',
+            'descor' => 'Porcentaje Retención',
+            'deslar' => 'Porcentaje Retención',
             'valent' => 0,
-            'valdec' => 0.3,
+            'valdec' => 0.03,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 7,
+            'codtab' => '02',
+            'descor' => 'Monto mínimo para Retención',
+            'deslar' => 'Monto mínimo para Retención',
+            'valent' => 0,
+            'valdec' => 700.00,
+        ]);
+        DB::table('parametros')->insert([
+            'codigo' => 7,
+            'codtab' => '03',
+            'descor' => 'Monto mínimo para Detracción',
+            'deslar' => 'Monto mínimo para Detracción',
+            'valent' => 0,
+            'valdec' => 400.00,
         ]);
     }
 
@@ -43,8 +95,8 @@ class ParametroTableSeeder extends Seeder
         DB::table('parametros')->insert([
             'codigo' => 6,
             'codtab' => '',
-            'descor' => 'Tipo de Cobro',
-            'deslar' => 'Tipo de Cobro',
+            'descor' => 'Tipo de afectación',
+            'deslar' => 'Tipo de afectación',
             'valent' => 0,
             'valdec' => 0.0,
         ]);

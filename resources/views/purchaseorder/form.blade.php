@@ -177,6 +177,7 @@
 @endsection
 
 @section('script')
+<script src="{{ asset('js/util.js') }}" ></script>
 <script >
     var rpta_srv;
     $(document).ready(function(){

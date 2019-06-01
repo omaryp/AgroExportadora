@@ -28,7 +28,10 @@ class CreateVouchersTable extends Migration
             $table->unsignedDecimal('valordetret',14,2)->default(0)->nullable();
             $table->unsignedDecimal('porvalordetret',10,5)->default(0)->nullable();
             $table->unsignedDecimal('subtotal',14,2)->default(0)->nullable();
+            //0 voucher aun no cancelado 1 voucher cancelado
             $table->unsignedDecimal('estado',2,0)->default(0);
+            //0 aun no se paga la afectacion 1 afectacion pagada
+             $table->unsignedDecimal('estado_afectacion',2,0)->default(0);
             $table->unsignedDecimal('forma_pago',2,0)->default(0);
             $table->unsignedInteger('fecuencia_pago')->default(0);
             $table->unsignedInteger('nro_cuotas')->default(0);
