@@ -1,10 +1,12 @@
 @extends('layout')
 
+@section('title_page')
+{{ $title }}
+@endsection
 
 @section('content')
-    <fieldset class="form-group border p-3" @unless($activo) disabled @endunless>
-        <legend class="col-sm-3">{{ $title }}</legend>
-        <form action="@if(empty($prov)) {{ url("proveedores") }} @else {{ url("proveedores/{$prov->id}") }} @endif" method="POST">
+    
+        <form  @unless($activo) disabled @endunless action="@if(empty($prov)) {{ url("proveedores") }} @else {{ url("proveedores/{$prov->id}") }} @endif" method="POST">
             @unless(empty($prov)) 
                 {{ method_field('PUT') }} 
             @endunless
@@ -68,7 +70,7 @@
             @endif
             
         </form>
-    </fieldset>
+    
     @unless ($activo)
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group mr-2">

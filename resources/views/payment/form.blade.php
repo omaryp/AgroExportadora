@@ -1,10 +1,10 @@
 @extends('layout')
 
-
+@section('name')
+{{ $title }}
+@endsection
 @section('content')
-    <fieldset class="form-group border p-3" @unless($activo) disabled @endunless>
-        <legend class="col-sm-3">{{ $title }}</legend>
-        <form action="@if(empty($pago)) {{ url('payments') }} @else {{ url("payments/{$pago->id}") }} @endif"  method="POST">
+        <form action="@if(empty($pago)) {{ url('payments') }} @else {{ url("payments/{$pago->id}") }} @endif" @unless($activo) disabled @endunless method="POST">
             @unless(empty($pago)) 
                 {{ method_field('PUT') }} 
             @endunless
@@ -63,7 +63,6 @@
             @endif
             
         </form>
-    </fieldset>
     @unless ($activo)
         <div class="btn-toolbar mb-2 mb-md-0">
             <div class="btn-group mr-2">

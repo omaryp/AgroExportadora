@@ -2,10 +2,12 @@
 
 @section('title',"Orden de Compra")
 
+@section('title_page')
+{{ $title }}
+@endsection
+
 @section('content')
-    <fieldset class="form-group border p-3" @unless($activo) disabled @endunless>
-        <legend class="col-sm-3">{{ $title }}</legend>
-        <form action="@if(empty($order)) {{ url("purchaseorders") }} @else {{ route('purchaseorders.update',['codigo'=>str_pad($order->id,10,'0',STR_PAD_LEFT)]) }} @endif" method="POST">
+        <form  @unless($activo) disabled @endunless action="@if(empty($order)) {{ url("purchaseorders") }} @else {{ route('purchaseorders.update',['codigo'=>str_pad($order->id,10,'0',STR_PAD_LEFT)]) }} @endif" method="POST">
             @unless(empty($order)) 
                 {{ method_field('PUT') }} 
             @endunless
@@ -136,14 +138,14 @@
                                         </tr>
                                     @empty 
                                         <tr>    
-                                            <td colspan="5">
+                                            <td colspan="6">
                                                 <h6>No se ha registrado items.</h6>
                                             </td>
                                         </tr>
                                     @endforelse            
                                 @else
                                     <tr>    
-                                        <td colspan="5">
+                                        <td colspan="6">
                                             <h6>No se ha registrado items.</h6>
                                         </td>
                                     </tr>
@@ -164,7 +166,6 @@
             @endif
             
         </form>
-    </fieldset>
     @include('proveedores.search')
     @include('purchaseorderdetail.form')
     @unless ($activo)

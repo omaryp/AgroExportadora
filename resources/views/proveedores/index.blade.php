@@ -1,11 +1,18 @@
 @extends('layout')
 
+@section('title_page')
+{{ $title }}
+@endsection
+
+
+@section('css')
+<link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet">
+@endsection
+
 @section('content')
-    <fieldset class="form-group border p-3">
+   
 
-        <legend class="col-sm-3">{{ $title }}</legend>  
-
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
             <h1 class="h2"></h1>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <div class="btn-group mr-2">
@@ -15,7 +22,7 @@
         </div>
     
         <div class="table-responsive">
-            <table class="table table-striped table-sm">
+            <table class="table table-striped table-sm" id="tbl_prov">
             <thead>
                 <tr>
                 <th>Ruc</th>
@@ -53,6 +60,19 @@
             </table>
         </div>
         @include('includes.pagination', ['paginator' => $provs])
-    </fieldset>
-
 @endsection
+
+@section('script')
+ 
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap.min.js"></script>
+  
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>  
+
+<script>
+
+$(document).ready(function() {
+  $('#tbl_prov').DataTable();
+});
+    </script>
+@endsection
+
