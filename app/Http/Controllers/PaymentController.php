@@ -16,13 +16,13 @@ class PaymentController extends Controller
 
     public function index(){
         $pagos = Payment::orderBy('created_at', 'desc')->paginate(7);    
-        $title = 'Pagos';
+        $title = 'Listado de Pagos';
         $datos_vista = compact('pagos','title');
         return view('payment.index',$datos_vista);
     }
 
     public function create(){
-        $title = 'Pago';
+        $title = 'Nuevo Pago';
         $activo = TRUE;
         $datos_vista = compact('activo','title');
         return view('payment.form',$datos_vista);
@@ -98,7 +98,7 @@ class PaymentController extends Controller
             $pago = Payment::create($data);
             if ($tipo_pago == $this::COMPROBANTE)
                 ChronogramVoucherController::actualizar_cuota($pago);
-            return redirect()->route('payments.edit',['id' => $pago->id]);
+            return redirect()->route('payment.index');
         }else{
             if ($validar->fails()) {
                 return redirect('/payments/create')
@@ -127,38 +127,18 @@ class PaymentController extends Controller
         return $maximo+1;
     }
 
-    
-    public function edit($codigo){
-        $voucher = Voucher::select('id',
-            'vouchers.tipo',
-            'vouchers.serie',
-            'vouchers.numero',
-            'vouchers.moneda',
-            'vouchers.fecha_emision',
-            'vouchers.importe',
-            'vouchers.importe_orden',
-            'vouchers.detret',
-            'vouchers.valordetret',
-            'vouchers.porvalordetret',
-            'vouchers.subtotal',
-            'vouchers.estado',
-            'vouchers.forma_pago',
-            'vouchers.ruc_proveedor',
-            'vouchers.razon_social',
-            'vouchers.purchase_order_id')
-           ->where('vouchers.id','=',$codigo)
-           ->get()->first();
-        $voucher->fecha_emision = date_format(date_create($voucher->fecha_emision), 'Y-m-d');
-        $title = 'Comprobante';
-        $tipo_com= ParametroController::getTipoComprobante();
-        $monedas = ParametroController::getMonedas();
-        $redet = ParametroController::getDetRet();
-        $forma_pago = ParametroController::getFormaPago();
-        $cronograma = ChronogramVoucherController::getCronograma($codigo);
-
-        $activo = TRUE;
-        $datos_vista = compact('activo','title','tipo_com','monedas','redet','forma_pago','voucher','cronograma');
-        return view('voucher.form',$datos_vista);
+    public function show(Payment $pago){
+        $title = 'Consulta de Pago';
+        $tipo_pago = ParametroController::getTipoPago();
+        $pago->fecha_pago = date_format(date_create($pago->fecha_pago), 'Y-m-d');
+        $bancos = ParametroController::getBancos();
+        $medios = ParametroController::getMedios();
+        //estado 0 es por pagar // 1 es pagada.
+        $cuotas = ChronogramVoucher::where('voucher_id','=',$pago->voucher_id)->get(['nro_cuota']);
+        $activo = FALSE;
+        return view('payment.form',compact('pago','activo','title','tipo_pago','bancos','medios','cuotas'));
     }
 
+    
+   
 }

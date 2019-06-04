@@ -14,13 +14,30 @@ class VoucherController extends Controller
 
     public function index(){
         $vouchers = Voucher::orderBy('fecha_emision', 'desc')->paginate(7);    
-        $title = 'Comprobantes';
+        $title = 'Listado de Comprobantes';
         $datos_vista = compact('vouchers','title');
         return view('voucher.index',$datos_vista);
     }
 
+    
+    public function show(Voucher $voucher){
+        $title = 'Consulta Comprobante';
+        $tipo_com= ParametroController::getTipoComprobante();
+        $monedas = ParametroController::getMonedas();
+        $redet = ParametroController::getTipoAfectacion();
+        $forma_pago = ParametroController::getFormaPago();
+        $min_ret = ParametroController::getMontoRetencion()->valdec;
+        $min_det = ParametroController::getMontoDetraccion()->valdec;
+        $activo = FALSE;
+        $cronograma = ChronogramVoucherController::getCronograma($voucher->id);
+        $datos_vista = compact('voucher','activo','title','tipo_com','monedas','redet','forma_pago','min_ret','min_det','cronograma');
+        
+        return view('voucher.form',$datos_vista);
+    }
+
+
     public function create(){
-        $title = 'Comprobante';
+        $title = 'Nuevo Comprobante';
         $tipo_com= ParametroController::getTipoComprobante();
         $monedas = ParametroController::getMonedas();
         $redet = ParametroController::getTipoAfectacion();
@@ -208,7 +225,7 @@ class VoucherController extends Controller
            ->where('vouchers.id','=',$codigo)
            ->get()->first();
         $voucher->fecha_emision = date_format(date_create($voucher->fecha_emision), 'Y-m-d');
-        $title = 'Comprobante';
+        $title = 'Actualiza Comprobante';
         $tipo_com= ParametroController::getTipoComprobante();
         $monedas = ParametroController::getMonedas();
         $redet = ParametroController::getTipoAfectacion();

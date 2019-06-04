@@ -83,8 +83,8 @@ Route::put('/vouchers/{id}','VoucherController@update')
 ->where('id','[0-9]+')
 ->name('vouchers.update');
 
-Route::get('/vouchers/{id}','VoucherController@show')
-->where('id','[0-9]+')
+Route::get('/vouchers/{voucher}','VoucherController@show')
+->where('voucher','[0-9]+')
 ->name('vouchers.show');
 
 Route::get('/vouchers/edit/{id}','VoucherController@edit')
@@ -115,25 +115,21 @@ Route::get('/payments/create','PaymentController@create')
 
 Route::post('/payments','PaymentController@store');
 
-Route::get('/payments/{id}','PaymentController@show')
-->where('id','[0-9]+')
+Route::get('/payments/{pago}','PaymentController@show')
+->where('pago','[0-9]+')
 ->name('payments.show');
 
-Route::get('/payments/edit/{id}','PaymentController@edit')
-->where('id','[0-9]+')
-->name('payments.edit');
-
-Route::delete('/payments/{id}','PaymentController@destroy')
-->where('id','[0-9]+')
+Route::delete('/payments/{pago}','PaymentController@destroy')
+->where('pago','[0-9]+')
 ->name('payments.delete');
 
 Route::get('/payments/tipo/{codigo}','PaymentController@tipo')
 ->where('codigo','[0-9]+')
 ->name('payments.tipo');
-
+/*
 Route::get('/payments/datos/{codigo}','PaymentController@datos')
 ->where('codigo','[0-9]+')
-->name('payments.datos');
+->name('payments.datos');*/
 
 Route::get('/payments/comprobante/{codigo}', 'PaymentController@comprobante')
 ->where('codigo','[0-9]+');

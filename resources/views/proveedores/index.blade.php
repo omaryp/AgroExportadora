@@ -9,17 +9,18 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet">
 @endsection
 
+@section('head_options')
+
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Proveedores</h1>
+    <a href="{{ route('proveedores.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus-circle fa-sm text-white-50"></i> Nuevo Proveedor </a>
+  </div>
+    
+@endsection
+
 @section('content')
    
 
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-            <h1 class="h2"></h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-                <div class="btn-group mr-2">
-                    <a href="{{ route('proveedores.create') }}" class="btn btn-sm btn-primary border">Nuevo</a>
-                </div>
-            </div>
-        </div>
     
         <div class="table-responsive">
             <table class="table table-striped table-sm" id="tbl_prov">
@@ -42,9 +43,9 @@
                         <td> 
                             <!--<div class="btn-toolbar mb-2 mb-md-0">-->
                                 <div class="btn-group mr-2">
-                                    <a href="{{ route('proveedores.show',['prov'=> $p->id]) }}" class="btn btn-outline-secondary btn-sm">C</a>
-                                    <a href="{{ route('proveedores.edit',['prov'=> $p->id]) }}" class="btn btn-outline-secondary btn-sm">U</a>
-                                    <a href="{{ route('proveedores.edit',['prov'=> $p->id]) }}" class="btn btn-outline-secondary btn-sm">E</a>
+                                    <a href="{{ route('proveedores.show',['prov'=> $p->id]) }}" class="btn btn-outline-secondary btn-sm"><i class="fas fa-fw fa-check-square"></i></a>
+                                    <a href="{{ route('proveedores.edit',['prov'=> $p->id]) }}" class="btn btn-outline-secondary btn-sm"><i class="fas fa-fw fa-pen-square"></i></a>
+                                    <a href="{{ route('proveedores.edit',['prov'=> $p->id]) }}" class="btn btn-outline-secondary btn-sm"><i class="fas fa-fw fa-trash-alt"></i></a>
                                 </div>
                             <!--</div>-->
                         </td>   

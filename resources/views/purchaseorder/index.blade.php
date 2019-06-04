@@ -8,16 +8,16 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet">
 @endsection
 
-@section('content')
+@section('head_options')
 
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-            <h1 class="h2"></h1>
-            <div class="btn-toolbar mb-2 mb-md-0">
-                <div class="btn-group mr-2">
-                    <a href="{{ route('purchaseorders.create') }}" class="btn btn-sm btn-primary border">Nuevo</a>
-                </div>
-            </div>
-        </div>
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <h1 class="h3 mb-0 text-gray-800">Ordenes de Compra</h1>
+    <a href="{{ route('purchaseorders.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-plus-circle fa-sm text-white-50"></i> Nueva Orden de Compra </a>
+  </div>
+    
+@endsection
+
+@section('content')
     
         <div class="table-responsive">
             <table class="table table-striped table-sm">
@@ -41,9 +41,9 @@
                         <td>{{ $order->descor }}</td>
                         <td> 
                             <div class="btn-group mr-2">
-                                <a href="{{ route('purchaseorders.show',['codigo'=> str_pad($order->id,10,"0",STR_PAD_LEFT)]) }}" class="btn btn-outline-secondary btn-sm">C</a>
-                                <a href="{{ route('purchaseorders.edit',['codigo'=> str_pad($order->id,10,"0",STR_PAD_LEFT)]) }}" class="btn btn-outline-secondary btn-sm">U</a>
-                                <a class="btn btn-outline-secondary btn-sm">E</a>
+                                <a href="{{ route('purchaseorders.show',['codigo'=> str_pad($order->id,10,"0",STR_PAD_LEFT)]) }}" class="btn btn-outline-secondary btn-sm"><i class="fas fa-fw fa-check-square"></i></a>
+                                <a href="{{ route('purchaseorders.edit',['codigo'=> str_pad($order->id,10,"0",STR_PAD_LEFT)]) }}" class="btn btn-outline-secondary btn-sm"><i class="fas fa-fw fa-pen-square"></i></a>
+                                <a class="btn btn-outline-secondary btn-sm"><i class="fas fa-fw fa-trash-alt"></i></a>
                             </div>
                         </td>   
                     </tr>

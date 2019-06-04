@@ -18,12 +18,12 @@ class PurchaseOrderController extends Controller
                 ->where('parametros.codtab','<>',"''")
                 ->orderBy('purchase_orders.created_at', 'desc')
                 ->paginate(7);
-        $title = 'Ordenes de Compra';  
+        $title = 'Listado de Ordenes de Compra';  
         return view('purchaseorder.index',compact('orders','title'));
     }
 
     public function create(){
-        $title = 'Orden de Compra';
+        $title = 'Nueva Orden de Compra';
         $activo = TRUE;
         $forma_pago = ParametroController::getFormaPago();
         $des_recurso = ParametroController::getDestinosRecursos();
@@ -97,7 +97,7 @@ class PurchaseOrderController extends Controller
                 ->where('parametros.codtab','<>',"''")
                 ->where('purchase_orders.id','=',$codigo)
                 ->get()->first();
-        $title = 'Orden de Compra';
+        $title = 'Consulta Orden de Compra';
         $activo = FALSE;
         return view('purchaseorder.form',compact('order','activo','title'));
     }
@@ -122,7 +122,7 @@ class PurchaseOrderController extends Controller
            ->where('purchase_orders.id','=',$codigo)
            ->get()->first();
         $order->fecha_emision = date_format(date_create($order->fecha_emision), 'Y-m-d');
-        $title = 'Orden de Compra';
+        $title = 'Actualizar Orden de Compra';
         $activo = TRUE;
         $forma_pago = ParametroController::getFormaPago();
         $des_recurso = ParametroController::getDestinosRecursos(); 

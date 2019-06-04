@@ -136,7 +136,7 @@
 
             </div>
 
-            <hr id="sep" class="d-none">
+            <hr id="sep" @unless(empty($voucher)) class="d-none" @endunless>
             <div class="row d-none" id='det'>
                 <div class="col-md-4 mb-3">
                     <label for="porvalordetret">Tasa Detracción</label>

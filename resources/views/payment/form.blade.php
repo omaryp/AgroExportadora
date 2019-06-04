@@ -1,8 +1,9 @@
 @extends('layout')
 
-@section('name')
+@section('title_page')
 {{ $title }}
 @endsection
+
 @section('content')
         <form action="@if(empty($pago)) {{ url('payments') }} @else {{ url("payments/{$pago->id}") }} @endif" @unless($activo) disabled @endunless method="POST">
             @unless(empty($pago)) 
@@ -44,14 +45,32 @@
                 <div class="col-md-3 mb-3">
                     <label for="tipo">Tipo Pago</label>
                     <div class="input-group">
-                        <select name="tipo_pago" id="tipo_pago" class="form-control form-control-sm" >
+                        <select name="tipo_pago" @unless(empty($tipo_pago)) disabled @endunless id="tipo_pago" class="form-control form-control-sm" >
                             <option value="00">Tipo Pago</option>
+                            @unless(empty($tipo_pago))
+                                @foreach ($tipo_pago as $tipo)
+                                <option value="{{ $tipo->codtab }}" @unless(empty($pago)) @if($pago->tipo_pago == $tipo->codtab ) selected @endif @endunless >{{ $tipo->descor }}</option>    
+                                @endforeach
+                            @endunless
                         </select>
                     </div>
                 </div>
             </div>
             <div id="frm_pago">
-
+                @unless(empty($pago))
+                    @switch($pago->tipo_pago)
+                        @case(1)
+                            @include('payment.comprobante')
+                            @break
+                        @case(2)
+                            @include('payment.detraccion')
+                            @break
+                        @case(3)
+                            @include('payment.retencion')
+                            @break
+                        @break
+                    @endswitch  
+                @endunless 
             </div>
             @if ($activo)
                 <div class="btn-toolbar mb-2 mb-md-0">
