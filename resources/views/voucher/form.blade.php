@@ -214,10 +214,11 @@
         });
 
         $('#btn_calendarizar').click(function(){
-            $( "#nro_cuotas" ).val('');
-            $( "#voucher_id" ).val($( "#id" ).val());
-            $( "#frecuencia_pago" ).val('');
-            $( "#fecha_primer_pago" ).val('');
+            $('#nro_cuotas' ).val('');
+            $('#voucher_id' ).val($( "#id" ).val());
+            $('#frecuencia_pago' ).val('');
+            $('#fecha_primer_pago' ).val('');
+            $('#fecha_emision_d').val($('#fecha_emision').val());
             $('#md_calendario').modal('show');       
         });
 
@@ -239,6 +240,8 @@
             $( "#razon_social" ).val($(this).attr('val_razon'));
             $( "#importe_or" ).val($(this).attr('val_total'));
             $( "#importe_orden" ).val($(this).attr('val_total'));
+            $( "#importe" ).val($(this).attr('val_total'));
+            importe
             $( "#md_search_order" ).modal('hide');
         });
 

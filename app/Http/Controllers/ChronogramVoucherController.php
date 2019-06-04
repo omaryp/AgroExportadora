@@ -16,7 +16,7 @@ class ChronogramVoucherController extends Controller
             'voucher_id'=>'nullable',
             'nro_cuotas'=>'required|numeric',
             'frecuencia_pago'=>'required|numeric',
-            'fecha_primer_pago'=>'required|date',
+            'fecha_primer_pago'=>'required|date|gt:fecha_emision',
         ];
         $validar = Validator::make($data, $reglas);
         if ($validar->passes()) {

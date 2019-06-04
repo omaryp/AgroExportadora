@@ -97,9 +97,12 @@ class PurchaseOrderController extends Controller
                 ->where('parametros.codtab','<>',"''")
                 ->where('purchase_orders.id','=',$codigo)
                 ->get()->first();
+
+        $order->fecha_emision = date_format(date_create($order->fecha_emision), 'Y-m-d');
         $title = 'Consulta Orden de Compra';
+        $details = PurchaseOrderDetailController::getDetalleOrden($codigo);
         $activo = FALSE;
-        return view('purchaseorder.form',compact('order','activo','title'));
+        return view('purchaseorder.form',compact('order','activo','title','details'));
     }
 
     public function edit($codigo){
@@ -150,6 +153,7 @@ class PurchaseOrderController extends Controller
     }
 
     public static function actualizar_total($codigo,$monto){
+        dd($codigo);
         $order=PurchaseOrder::find($codigo);
         $order->total+=$monto;
         $order->update();

@@ -28,6 +28,7 @@
                             <input type="text" class="form-control form-control-sm" id="frecuencia_pago" name ="frecuencia_pago" placeholder="Frecuencia de Pagos (días)" />
                         </div>
                     </div>
+                    <input type="hidden" name="fecha_emision" id="fecha_emision_d" value="">
                     <div class="row">
                             <div class="col-md-12 mb-3">
                                 <label for="fecha_primer_pago">Fecha Primer Pago</label>

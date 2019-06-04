@@ -25,7 +25,7 @@ class PurchaseOrderDetailController extends Controller
             $detail = new PurchaseOrderDetail();
             $codigo_orden = str_pad($data['purchase_order_id'],10,"0",STR_PAD_LEFT);
             $detail->purchase_order_id = $codigo_orden;
-            $nro_item = PurchaseOrderDetailController::getCodigoItem($detail->purchase_order_id);
+            $nro_item = $this::getCodigoItem($detail->purchase_order_id);
             $detail->numero_item= $nro_item;
             $detail->cantidad = $data['cantidad'];
             $detail->unidad_medida = $data['unidad_medida'];

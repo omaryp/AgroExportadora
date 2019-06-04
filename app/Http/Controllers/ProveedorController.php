@@ -10,7 +10,7 @@ class ProveedorController extends Controller{
 
     public function index(){
         $provs = Proveedor::orderBy('razon_social', 'asc')->paginate(7);    
-        $title = 'Litado de Proveedores';
+        $title = 'Listado de Proveedores';
         return view('proveedores.index',compact('provs','title'));
     }
 

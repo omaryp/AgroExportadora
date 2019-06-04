@@ -75,6 +75,13 @@
         </a>
       </li>
 
+      <!--<li class="nav-item">
+          <a class="nav-link " href="{{ route('payments') }}" >
+            <i class="fas fa-fw fa-hand-holding-usd"></i>
+            <span>Requerimiento Económico</span>
+          </a>
+        </li>-->
+
       <li class="nav-item">
           <a class="nav-link " href="{{ route('vouchers') }}" >
             <i class="fas fa-fw fa-receipt"></i>
@@ -84,7 +91,7 @@
 
         <li class="nav-item">
             <a class="nav-link " href="{{ route('payments') }}" >
-              <i class="fas fa-money-bill-wave"></i>
+              <i class="fas fa-fw fa-file-invoice-dollar"></i>
               <span>Pagos</span>
             </a>
           </li>
@@ -92,34 +99,22 @@
       <hr class="sidebar-divider">
 
       <!-- Heading -->
-      <div class="sidebar-heading">
-        Addons
-      </div>
+      <!--<div class="sidebar-heading">
+        Reportes
+      </div>-->
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <li class="nav-item">
+      <!--<li class="nav-item">
         <a class="nav-link " href="#">
           <i class="fas fa-fw fa-folder"></i>
           <span>Pages</span>
         </a>
-      </li>
+      </li>-->
 
-      <!-- Nav Item - Charts -->
-      <li class="nav-item">
-        <a class="nav-link" href="charts.html">
-          <i class="fas fa-fw fa-chart-area"></i>
-          <span>Charts</span></a>
-      </li>
-
-      <!-- Nav Item - Tables -->
-      <li class="nav-item active">
-        <a class="nav-link" href="tables.html">
-          <i class="fas fa-fw fa-table"></i>
-          <span>Tables</span></a>
-      </li>
+      
 
       <!-- Divider -->
-      <hr class="sidebar-divider d-none d-md-block">
+      <!--<hr class="sidebar-divider d-none d-md-block">-->
 
       <!-- Sidebar Toggler (Sidebar) -->
       <div class="text-center d-none d-md-inline">
