@@ -11,4 +11,8 @@ class PurchaseOrder extends Model
         'plazo_dias','fecha_emision','estado', 'subtotal', 'igv', 'flete', 'total', 
         'usuario_crea', 'usuario_aprueba', 'condiciones_entrega','almacen',
         'direccion', 'referencia_destino','proveedor_id'];
+
+    protected $primaryKey = ['id'];
+
+    public $incrementing = false;   
 }

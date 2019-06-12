@@ -141,3 +141,32 @@ Route::get('/payments/retencion/{codigo}', 'PaymentController@detret')
 ->where('codigo','[0-9]+');
 
 /*************************************************************************/
+
+
+/************************REQUERIMIENTO ECONÓMICO**************************/
+Route::get('/economicrequests','EconomicRequestController@index')->name('economicrequests');
+
+Route::post('/economicrequests','EconomicRequestController@store');
+
+Route::get('/economicrequests/nueva','EconomicRequestController@create')
+->name('economicrequests.create');
+
+Route::get('/economicrequests/{codigo}','EconomicRequestController@show')
+->where('codigo','[0-9]+')
+->name('economicrequests.show');
+
+Route::get('/economicrequests/editar/{codigo}','EconomicRequestController@edit')
+->where('codigo','[0-9]+')
+->name('economicrequests.edit');
+
+Route::put('/economicrequests/{codigo}','EconomicRequestController@update')
+->name('economicrequests.update');
+
+Route::get('/economicrequests/search/{rz}','EconomicRequestController@search')
+->name('proveedores.search');
+/*************************************************************************/
+
+/***********************REQUERIMIENTO ECONOMICO DETALLE*******************/
+Route::post('/economicrequestdetail','EconomicRequestDetailController@store');
+
+/*************************************************************************/

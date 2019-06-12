@@ -31,7 +31,7 @@ class CreateVouchersTable extends Migration
             //0 voucher aun no cancelado 1 voucher cancelado
             $table->unsignedDecimal('estado',2,0)->default(0);
             //0 aun no se paga la afectacion 1 afectacion pagada
-             $table->unsignedDecimal('estado_afectacion',2,0)->default(0);
+            $table->unsignedDecimal('estado_afectacion',2,0)->default(0);
             $table->unsignedDecimal('forma_pago',2,0)->default(0);
             $table->unsignedInteger('fecuencia_pago')->default(0);
             $table->unsignedInteger('nro_cuotas')->default(0);
@@ -39,6 +39,8 @@ class CreateVouchersTable extends Migration
             $table->date('fecha_primer_pago')->nullable();
             $table->string('ruc_proveedor',11)->default('');
             $table->string('razon_social',150)->default('');
+            //1 origen es orden de compra -- 2 origen requerimiento económico
+            $table->unsignedInteger('origen_comprobante')->default(0);
             $table->timestamps();
         });
     }

@@ -75,12 +75,12 @@
         </a>
       </li>
 
-      <!--<li class="nav-item">
-          <a class="nav-link " href="{{ route('payments') }}" >
+      <li class="nav-item">
+          <a class="nav-link " href="{{ route('economicrequests') }}" >
             <i class="fas fa-fw fa-hand-holding-usd"></i>
             <span>Requerimiento Económico</span>
           </a>
-        </li>-->
+        </li>
 
       <li class="nav-item">
           <a class="nav-link " href="{{ route('vouchers') }}" >

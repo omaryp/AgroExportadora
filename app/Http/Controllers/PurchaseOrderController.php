@@ -147,16 +147,15 @@ class PurchaseOrderController extends Controller
             'condiciones_entrega' => 'nullable',
             'proveedor_id' => 'required|numeric',
         ]);    
-        $order=PurchaseOrder::find($codigo);
+        $order=PurchaseOrder::where('id','=',$codigo)->get()->first();
         $order->update($data);
         return redirect()->route('purchaseorders.edit',['codigo' =>$codigo]);
     }
 
     public static function actualizar_total($codigo,$monto){
-        dd($codigo);
-        $order=PurchaseOrder::find($codigo);
+        $order=PurchaseOrder::where('id','=',$codigo)->get()->first();
         $order->total+=$monto;
-        $order->update();
+        $order->save();
     }
 /*
     public function destroy(Proveedor $prov){
