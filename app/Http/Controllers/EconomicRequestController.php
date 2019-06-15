@@ -86,7 +86,7 @@ class EconomicRequestController extends Controller
                  'economic_requests.total', 
                  'economic_requests.solicitadopor',
                  'economic_requests.dirigidoa',
-                 'economic_requests.concepto',)
+                 'economic_requests.concepto')
                 ->where('economic_requests.id','=',$codigo)
                 ->get()->first();
 

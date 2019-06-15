@@ -27,7 +27,7 @@
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="fecha">Fecha Emisión</label>
-                    <input type="date" class="form-control form-control-sm" id="fecha_emision" name ="fecha_emision" placeholder="dd/mm/aaaa" @unless(empty($request)) value="{{ $request->fecha_emision }}" @else value="{{ old('fecha_emision') }}" @endunless/>
+                    <input type="date" @if(! $activo) disabled @endif class="form-control form-control-sm" id="fecha_emision" name ="fecha_emision" placeholder="dd/mm/aaaa" @unless(empty($request)) value="{{ $request->fecha_emision }}" @else value="{{ old('fecha_emision') }}" @endunless/>
                 </div>
             </div>
             
@@ -35,13 +35,13 @@
                 <div class="col-md-6 mb-3">
                     <label for="solicitadopor">Solicitado por</label>
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-sm" id="solicitadopor" name ="solicitadopor" placeholder="Quién solicita?" @unless(empty($request)) value="{{ $request->solicitadopor }}" @else value="{{ old('solicitadopor') }}" @endunless/>
+                        <input type="text" @if(! $activo) disabled @endif class="form-control form-control-sm" id="solicitadopor" name ="solicitadopor" placeholder="Quién solicita?" @unless(empty($request)) value="{{ $request->solicitadopor }}" @else value="{{ old('solicitadopor') }}" @endunless/>
                     </div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="dirigidoa">Dirigido a</label>
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-sm" id="dirigidoa" name ="dirigidoa"  @unless(empty($request)) value="{{ $request->dirigidoa }}" @else value="{{ old('dirigidoa') }}" @endunless/>
+                        <input type="text" @if(! $activo) disabled @endif class="form-control form-control-sm" id="dirigidoa" name ="dirigidoa"  @unless(empty($request)) value="{{ $request->dirigidoa }}" @else value="{{ old('dirigidoa') }}" @endunless/>
                     </div>
                 </div>
             </div>
@@ -50,12 +50,12 @@
                 <div class="col-md-11 mb-3">
                     <label for="concepto">Concepto</label>
                     <div class="input-group">
-                        <input type="text" class="form-control form-control-sm" id="concepto" name ="concepto" placeholder="Concepto" @unless(empty($request)) value="{{ $request->concepto}}" @else value="{{ old('concepto') }}" @endunless/>
+                        <input type="text" @if(! $activo) disabled @endif class="form-control form-control-sm" id="concepto" name ="concepto" placeholder="Concepto" @unless(empty($request)) value="{{ $request->concepto}}" @else value="{{ old('concepto') }}" @endunless/>
                     </div>
                 </div>
                 <div class="col-md-1 mb-3">
                     <div class="input-group">
-                        <button type="button" @if(empty($request)) disabled @endif class="btn btn-sm btn-primary" id="btn_detalle">Detalle</button>
+                        <button type="button" @if(empty($request)) disabled @endif class="btn btn-sm btn-primary @if(! $activo) d-none @endif " id="btn_detalle">Detalle</button>
                     </div>
                 </div>
             </div>
