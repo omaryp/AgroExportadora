@@ -24,6 +24,7 @@ class CreateVouchersTable extends Migration
             $table->date('fecha_emision')->nullable();
             $table->unsignedDecimal('importe_orden',14,2)->default(0);
             $table->unsignedDecimal('importe',14,2)->default(0);
+            $table->unsignedDecimal('total_pagado',14,2)->default(0);
             $table->unsignedDecimal('detret',2,0)->default(0);
             $table->unsignedDecimal('valordetret',14,2)->default(0)->nullable();
             $table->unsignedDecimal('porvalordetret',10,5)->default(0)->nullable();

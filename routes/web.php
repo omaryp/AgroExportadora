@@ -170,3 +170,26 @@ Route::get('/economicrequests/search/{rz}','EconomicRequestController@search')
 Route::post('/economicrequestdetail','EconomicRequestDetailController@store');
 
 /*************************************************************************/
+
+/********************************REPORTES*********************************/
+Route::get('/debts','ReportsController@deudasporpagar')->name('debts');
+
+/*Route::post('/economicrequests','EconomicRequestController@store');
+
+Route::get('/economicrequests/nueva','EconomicRequestController@create')
+->name('economicrequests.create');
+
+Route::get('/economicrequests/{codigo}','EconomicRequestController@show')
+->where('codigo','[0-9]+')
+->name('economicrequests.show');
+
+Route::get('/economicrequests/editar/{codigo}','EconomicRequestController@edit')
+->where('codigo','[0-9]+')
+->name('economicrequests.edit');
+
+Route::put('/economicrequests/{codigo}','EconomicRequestController@update')
+->name('economicrequests.update');
+
+Route::get('/economicrequests/search/{rz}','EconomicRequestController@search')
+->name('proveedores.search');
+/*************************************************************************/

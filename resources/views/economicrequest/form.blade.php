@@ -76,7 +76,7 @@
                             <tbody>
                                 @unless(empty($details))
                                     @forelse ($details as $det)
-                                        <tr>
+                                        <tr>d
                                             <td>{{ $det->numero_item }}</td>
                                             <td>{{ $det->cantidad }}</td>
                                             <td>{{ $det->descripcion }}</td>

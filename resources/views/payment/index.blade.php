@@ -49,7 +49,7 @@
                     </tr>
                 @empty 
                     <tr>    
-                        <td colspan="5">
+                        <td colspan="6">
                             <h6>No se encontraron elementos.</h6>
                         </td>
                     </tr>

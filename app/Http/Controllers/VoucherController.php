@@ -18,7 +18,6 @@ class VoucherController extends Controller
         $datos_vista = compact('vouchers','title');
         return view('voucher.index',$datos_vista);
     }
-
     
     public function show(Voucher $voucher){
         $title = 'Consulta Comprobante';
@@ -34,7 +33,6 @@ class VoucherController extends Controller
         
         return view('voucher.form',$datos_vista);
     }
-
 
     public function create(){
         $title = 'Nuevo Comprobante';
@@ -111,7 +109,12 @@ class VoucherController extends Controller
                             ->withInput();
             }
         }
-        
+    }
+
+    public static function actualizar_total_pagado($pago){
+        $voucher = Voucher::where('voucher_id','=',$pago->voucher_id)->get()->first();
+        $voucher->total_pagado += $pago->monto_pago;
+        $voucher->update();
     }
 
     public function update($codigo){

@@ -96,8 +96,10 @@ class PaymentController extends Controller
             $data['serie_retencion'] = '0';
             $data['numero_retencion'] = '0';
             $pago = Payment::create($data);
-            if ($tipo_pago == $this::COMPROBANTE)
+            if ($tipo_pago == $this::COMPROBANTE){
                 ChronogramVoucherController::actualizar_cuota($pago);
+                VoucherController::actualizar_total_pagado($pago);
+            }
             return redirect()->route('payment.index');
         }else{
             if ($validar->fails()) {

@@ -99,17 +99,19 @@
       <hr class="sidebar-divider">
 
       <!-- Heading -->
-      <!--<div class="sidebar-heading">
+      <div class="sidebar-heading">
         Reportes
-      </div>-->
+      </div>
 
       <!-- Nav Item - Pages Collapse Menu -->
-      <!--<li class="nav-item">
-        <a class="nav-link " href="#">
-          <i class="fas fa-fw fa-folder"></i>
-          <span>Pages</span>
+      <li class="nav-item">
+        <a class="nav-link " href="{{ route('debts') }}" >
+          <i class="fas fa-fw fa-archive"></i>
+          <span>Deudas por pagar</span>
         </a>
-      </li>-->
+      </li>
+
+      <hr class="sidebar-divider">
 
       
 

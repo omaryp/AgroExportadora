@@ -73,6 +73,7 @@ class ChronogramVoucherController extends Controller
         $cuota->fecha_pago = $pago->fecha_pago;
         $diff = date_create($cuota->fecha_cuota)->diff(date_create($pago->fecha_pago));
         $cuota->mora = $diff->days;
+        //estado = 1 es cuota pagada
         $cuota->estado = 1;
         $cuota->update();
     }
